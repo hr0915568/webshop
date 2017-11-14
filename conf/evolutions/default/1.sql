@@ -5,9 +5,13 @@
 
 create table user (
   id                            bigint auto_increment not null,
-  name                          varchar(255),
+  firstname                     varchar(255),
+  email                         varchar(255),
+  password                      varchar(255),
+  lastname                      varchar(255),
   done                          tinyint(1) default 0 not null,
   due_date                      datetime(6),
+  constraint uq_user_email unique (email),
   constraint pk_user primary key (id)
 );
 

@@ -3,6 +3,14 @@
 
 # --- !Ups
 
+create table product (
+  id                            bigint auto_increment not null,
+  productname                   varchar(255),
+  description                   varchar(255),
+  price                         float,
+  constraint pk_product primary key (id)
+);
+
 create table user (
   id                            bigint auto_increment not null,
   firstname                     varchar(255),
@@ -17,6 +25,8 @@ create table user (
 
 
 # --- !Downs
+
+drop table if exists product;
 
 drop table if exists user;
 

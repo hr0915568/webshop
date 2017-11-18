@@ -24,8 +24,8 @@
 #-ivy ~/.ivy2
 
 # set memory options
-#
-#-mem   <integer>  
+
+-mem   4096
 
 # Use local caches for projects, no sharing.
 #

@@ -14,3 +14,9 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 
 + nocsrf
 POST    /login                      controllers.AuthController.login()
+
++ nocsrf
+POST    /forgottenpassword                      controllers.AuthController.forgottenPassword()
+
++ nocsrf
+POST    /resetpassword                      controllers.AuthController.resetPassword()

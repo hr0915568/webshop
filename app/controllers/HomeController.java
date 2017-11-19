@@ -19,10 +19,9 @@ public class HomeController extends Controller {
      * <code>GET</code> request with a path of <code>/</code>.
      */
 
-    @Inject MailerService mailerService;
+
 
     public Result index() {
-        mailerService.sendEmail();
         return ok(index.render("Your new application is ready. 123"));
     }
 

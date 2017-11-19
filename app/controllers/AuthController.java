@@ -26,6 +26,14 @@ public class AuthController extends Controller {
 
     private final FormFactory formFactory;
 
+
+    public Result forgottenPassword()
+    {
+
+        return ok();
+    }
+
+
     @Inject
     public AuthController(final FormFactory formFactory) {
         this.formFactory = formFactory;

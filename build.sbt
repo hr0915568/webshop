@@ -10,6 +10,10 @@ libraryDependencies += guice
 libraryDependencies += javaJdbc
 libraryDependencies += "org.mindrot" % "jbcrypt" % "0.3m"
 
+libraryDependencies += "com.typesafe.play" %% "play-mailer" % "6.0.0"
+libraryDependencies += "com.typesafe.play" %% "play-mailer-guice" % "6.0.0"
+
+
 libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.41"
 
 // Test Database

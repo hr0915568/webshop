@@ -1,0 +1,79 @@
+<!-- Created by Sophie van den Akker November 2017 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Login Page</title>
+    
+    <link rel="stylesheet" href="e:\Bibliotheken\Coding\Github\webshop\app\views\css\login.css"> <!-- Relate to css doc -->    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> <!-- Add icon library -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+</head>
+
+<body>
+
+    <!-- Navigation Part Icons -->
+    <div class="icon-bar">
+        <a class="active" href="#"><i class="fa fa-home"></i></a>
+        <a href="#"><i class="fa fa-search"></i></a>
+        <a href="#"><i class="fa fa-envelope"></i></a>
+        <a href="#"><i class="fa fa-globe"></i></a>
+        <a href="#"><i class="fa fa-trash"></i></a>
+    </div>
+
+    <!-- Navigation Part responsive -->
+    <div id="main">
+        <div class="sideNav" id="sidenav">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#login" class="active">Login</a>
+            <a href="#shop">Shop</a>
+            <a href="#contact">Contact</a>
+            <a href="javascript:void(0);" class="icon" onclick="myFunction()">&#9776;</a>
+        </div>
+    </div>    
+    <!-- Page Content -->
+    <div class="container">
+
+    
+        <!--- A login part with Angular -->
+        <h1>This is the login page of our webshop</h1>
+        <p>To be able to login you first have to be registered.</p>
+        <div ng-app="">
+            <p ng-bind="name"></p>
+            <p>Name: <input type="tex0t" ng-model="name"></p>
+            <p>Password: <input type="text" ng-model="password"></p>
+        </div>
+
+        <!--- A login part with: html, css and php
+        It is a popup window -->
+        <form action="/acton_page.php">
+            <div class="imgcontainer">
+                <img src="panda_avatar.jpg" alt="Avatar" class="avatar">
+            </div>
+
+            <div class="container">
+                <label><b>Username</b></label>
+                <input type="text" placeholder="Enter Your Username Please" name="uname" required>
+
+                <label><b>Password</b></label>
+                <input type="password" placeholder="Enter Your Password Please" name="psw" required>
+
+                <button type="submit">Login</button>
+                <input type="checkbox" checked="checked">Remember me
+            </div>
+
+            <div class="container" style="background-color:#f1f1f1">
+                <button type="button" class="cancelbtn">Cancel</button>
+                <span class="psw">Forgot <a href="#">password?</a></span>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

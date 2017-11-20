@@ -9,6 +9,7 @@ import play.Logger;
 import javax.inject.*;
 
 import services.MailerService;
+import services.UserService;
 import views.html.*;
 import models.User;
 import play.data.validation.Constraints.Validate;
@@ -50,7 +51,7 @@ public class AuthController extends Controller {
             find the user and reset its password
              */
             ForgottenPasswordCode forgottenPasswordCode = ForgottenPasswordCode.findByCode(newPasswordForm.get().getCode());
-            User user = User.find.byId(forgottenPasswordCode.user_id);
+            User user = UserService.find.byId(forgottenPasswordCode.user_id);
             user.setPassword(newPasswordForm.get().getPassword());
             user.update();
 
@@ -142,7 +143,7 @@ public class AuthController extends Controller {
 
         @Override
         public String validate() {
-            if (User.findByEmail(email) == null) {
+            if (UserService.findByEmail(email) == null) {
                 return "User not found";
             }
             return null;

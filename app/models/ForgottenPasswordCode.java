@@ -5,6 +5,7 @@ import io.ebean.Finder;
 import io.ebean.Model;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
+import services.UserService;
 
 import javax.persistence.*;
 import java.util.Calendar;
@@ -36,7 +37,7 @@ public class ForgottenPasswordCode extends Model {
     }
 
     public static ForgottenPasswordCode generateNewCode(String email) {
-        User user = User.findByEmail(email);
+        User user = UserService.findByEmail(email);
 
         ForgottenPasswordCode forgottenPasswordCode = new ForgottenPasswordCode(user.id);
         Calendar cal = Calendar.getInstance(); // creates calendar

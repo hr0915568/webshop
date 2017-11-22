@@ -93,6 +93,7 @@ public class AuthController extends Controller {
         } else {
             session().clear();
             session("email", loginForm.get().email);
+
             return ok("success");
         }
     }

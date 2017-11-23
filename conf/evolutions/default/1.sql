@@ -3,12 +3,21 @@
 
 # --- !Ups
 
+<<<<<<< HEAD
 create table product (
   id                            bigint auto_increment not null,
   productname                   varchar(255),
   description                   varchar(255),
   price                         float,
   constraint pk_product primary key (id)
+=======
+create table forgotten_password_code (
+  id                            bigint auto_increment not null,
+  user_id                       bigint,
+  code                          varchar(255),
+  valid_until                   datetime(6),
+  constraint pk_forgotten_password_code primary key (id)
+>>>>>>> 1e8348dc29e037fce7e9a6f41e64b26e3f7ae557
 );
 
 create table user (
@@ -26,7 +35,11 @@ create table user (
 
 # --- !Downs
 
+<<<<<<< HEAD
 drop table if exists product;
+=======
+drop table if exists forgotten_password_code;
+>>>>>>> 1e8348dc29e037fce7e9a6f41e64b26e3f7ae557
 
 drop table if exists user;
 

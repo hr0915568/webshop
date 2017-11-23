@@ -1,4 +1,4 @@
-name := """play-java-starter-example"""
+name := """webshop"""
 
 version := "1.0-SNAPSHOT"
 
@@ -9,6 +9,10 @@ scalaVersion := "2.12.2"
 libraryDependencies += guice
 libraryDependencies += javaJdbc
 libraryDependencies += "org.mindrot" % "jbcrypt" % "0.3m"
+
+libraryDependencies += "com.typesafe.play" %% "play-mailer" % "6.0.0"
+libraryDependencies += "com.typesafe.play" %% "play-mailer-guice" % "6.0.0"
+
 
 libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.41"
 

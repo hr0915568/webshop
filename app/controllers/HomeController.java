@@ -2,8 +2,10 @@ package controllers;
 
 import play.mvc.*;
 
+import services.MailerService;
 import views.html.*;
-
+import javax.inject.Inject;
+import services.MailerService;
 /**
  * This controller contains an action to handle HTTP requests
  * to the application's home page.
@@ -16,6 +18,9 @@ public class HomeController extends Controller {
      * this method will be called when the application receives a
      * <code>GET</code> request with a path of <code>/</code>.
      */
+
+
+
     public Result index() {
         return ok(index.render("Your new application is ready. 123"));
     }

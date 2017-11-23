@@ -24,42 +24,27 @@ public class Product extends Model {
     @Constraints.Required
     public Float price;
 
-    public static final Finder<Long, Product> find = new Finder<>(Product.class);
-
-    public static List<Product> getAllProducts() {
-        List<Product> products = Product.find.query()
-                .findPagedList()
-                .getList();
-
-        if (products.size() == 0) {
-            return null;
-        }
-
-        return products;
+    public Float getPrice() {
+        return price;
     }
 
-    public static Product findByName(String productname) {
-        List<Product> product = Product.find.query().where().eq("productname", productname)
-                .setMaxRows(1)
-                .findPagedList()
-                .getList();
-
-        if (product.size() == 0) {
-            return null;
-        }
-
-        return product.get(0);
+    public void setPrice(Float price) {
+        this.price = price;
     }
 
-    public static List<Product> findProductsWithinPriceRange(Float minPrice, Float maxPrice) {
-        List<Product> products = Product.find.query().where().eq("price >= ", minPrice).eq("price <= ", maxPrice)
-                .findPagedList()
-                .getList();
+    public String getProductname() {
+        return productname;
+    }
 
-        if (products.size() == 0) {
-            return null;
-        }
+    public void setProductname(String productname) {
+        this.productname = productname;
+    }
 
-        return products;
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

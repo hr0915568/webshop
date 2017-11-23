@@ -14,3 +14,4 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 
 + nocsrf
 POST    /login                      controllers.AuthController.login()
+GET     /products                   controllers.ProdController.getAll()

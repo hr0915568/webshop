@@ -1,10 +1,12 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.ForgottenPasswordCode;
 import models.User;
 import play.data.Form;
 import play.data.FormFactory;
 import play.data.validation.Constraints;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
@@ -27,6 +29,12 @@ public class ProfileController extends Controller {
         return true;
     }
 
+    private User getSessionUser()
+    {
+        String email = session("email");
+        return UserService.findByEmail(email);
+    }
+
     public Result edit()
     {
         if(isLoggedIn() == false) {
@@ -39,12 +47,13 @@ public class ProfileController extends Controller {
             return badRequest(profileForm.getGlobalError().toString());
         } else {
           //update profile
-            String email = "sdfs@dsfsd.com";
-            User user = UserService.findByEmail(email);
+            User user = getSessionUser();
             user.setFirstname(profileForm.get().getFirstname());
             user.setLastname(profileForm.get().getLastname());
             user.setPassword(profileForm.get().getPassword());
+            user.setEmail(profileForm.get().getEmail());
             user.update();
+            session("email", user.getEmail()); //update session
             return ok("success");
         }
     }
@@ -55,7 +64,18 @@ public class ProfileController extends Controller {
      */
     public Result get()
     {
-        return ok();
+
+        if(isLoggedIn() == false) {
+            return badRequest("Not logged in");
+        }
+
+        User user = getSessionUser();
+
+        ObjectNode result = Json.newObject();
+        result.put("firstname", user.getFirstname());
+        result.put("lastname", user.getLastname());
+        result.put("email", user.getEmail());
+        return ok(result);
     }
 
     @Constraints.Validate

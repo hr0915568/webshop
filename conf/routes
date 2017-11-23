@@ -23,3 +23,6 @@ POST    /resetpassword                      controllers.AuthController.resetPass
 
 + nocsrf
 POST    /profile/edit                      controllers.ProfileController.edit()
+
++ nocsrf
+GET    /profile/get                      controllers.ProfileController.get()

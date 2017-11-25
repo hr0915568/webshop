@@ -4,6 +4,7 @@ import controllers.CountController;
 import org.junit.Test;
 import play.mvc.Result;
 import scala.concurrent.ExecutionContextExecutor;
+import models.Product;
 
 import java.util.concurrent.CompletionStage;
 
@@ -51,5 +52,21 @@ public class UnitTest {
             actorSystem.terminate();
         }
     }
+
+//    public class ProductTest{
+//
+//        @Test
+//        public void testProduct(){
+//            Product testProduct = new Product();
+//            testProduct.setProductname("Auto");
+//            testProduct.setDescription("kan hard rijden");
+//            testProduct.setPrice(1000.15F);
+//            assertAll("testProduct",
+//                    () -> assertEquals("Auto", testProduct.getProductname()),
+//                    () -> assertEquals("kan hard rijden", testProduct.getDescription()),
+//                    () -> assertEquals(1000.15F, testProduct.getPrice())
+//            );
+//        }
+//    }
 
 }

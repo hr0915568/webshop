@@ -1,5 +1,6 @@
 package services;
 
+import io.ebean.Ebean;
 import io.ebean.Finder;
 import models.Product;
 
@@ -59,5 +60,11 @@ public class ProductService {
         }
 
         return products;
+    }
+
+    public static void deleteProduct(Long id) {
+
+        Ebean.delete(findByID(id));
+
     }
 }

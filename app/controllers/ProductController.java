@@ -14,6 +14,7 @@ import io.ebean.*;
 
 
 import javax.inject.Inject;
+import java.util.List;
 
 public class ProductController extends Controller {
 
@@ -36,32 +37,33 @@ public class ProductController extends Controller {
         }
     }
 
-//    public Product editProduct(Long id)
-//    {
-//
-//        Form<Product> productForm = formFactory.form(Product.class).bindFromRequest();
-//
-//        if (productForm.hasErrors()) {
-//            return badRequest(productForm.getGlobalError().toString());
-//        } else {
-//          //update profile
-//            Product product = ProductService.findByID(id);
-//            product.setProductname(productForm.get().getProductName());
-//            product.update();
-//            return ok("success");
-//        }
-//    }
+    public Result editProduct(Long id)
+    {
+
+        Form<ProductInput> productForm = formFactory.form(ProductInput.class).bindFromRequest();
+
+        if (productForm.hasErrors()) {
+            return badRequest(productForm.getGlobalError().toString());
+        } else {
+          //update profile
+            Product product = ProductService.findByID(id);
+            product.setProductname(productForm.get().getProductname());
+            product.setDescription(productForm.get().getDescription());
+            product.setPrice(productForm.get().getPrice());
+            product.update();
+            return ok("success");
+        }
+    }
 
     public void deleteProduct(Long id) {
 
-        Ebean.delete(ProductService.findByID(id));
+        ProductService.deleteProduct(id);
 
     }
 
-//    public List<Product> getAllProducts() {
-//        products =  ProductService.getAllProducts();
-//        return products;
-//    }
+    public List<Product> getAllProducts() {
+        return ProductService.getAllProducts();
+    }
 
     @Constraints.Validate
     public static class ProductInput implements Constraints.Validatable<String> {

@@ -3,6 +3,12 @@
 
 # --- !Ups
 
+create table category (
+  id                            bigint auto_increment not null,
+  category_name                 varchar(255),
+  constraint pk_category primary key (id)
+);
+
 create table forgotten_password_code (
   id                            bigint auto_increment not null,
   user_id                       bigint,
@@ -16,6 +22,7 @@ create table product (
   productname                   varchar(255),
   description                   varchar(255),
   price                         float,
+  categories_id                 bigint not null,
   constraint pk_product primary key (id)
 );
 
@@ -31,8 +38,16 @@ create table user (
   constraint pk_user primary key (id)
 );
 
+alter table product add constraint fk_product_categories_id foreign key (categories_id) references category (id) on delete restrict on update restrict;
+create index ix_product_categories_id on product (categories_id);
+
 
 # --- !Downs
+
+alter table product drop foreign key fk_product_categories_id;
+drop index ix_product_categories_id on product;
+
+drop table if exists category;
 
 drop table if exists forgotten_password_code;
 

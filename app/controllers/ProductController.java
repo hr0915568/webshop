@@ -65,6 +65,8 @@ public class ProductController extends Controller {
         return ProductService.getAllProducts();
     }
 
+    public List<Product> getProductsByCategory(Long id){return ProductService.getProductsByCategory(id);}
+
     @Constraints.Validate
     public static class ProductInput implements Constraints.Validatable<String> {
 

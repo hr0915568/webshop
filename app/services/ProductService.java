@@ -2,6 +2,7 @@ package services;
 
 import io.ebean.Ebean;
 import io.ebean.Finder;
+import models.Category;
 import models.Product;
 
 import java.util.*;
@@ -11,6 +12,7 @@ import java.util.List;
 public class ProductService {
 
     public static final Finder<Long, Product> find = new Finder<>(Product.class);
+    public static final Finder<Long, Category> findCategory = new Finder<>(Category.class);
 
     public static Product findByName(String productname) {
         List<Product> product = ProductService.find.query().where().eq("productname", productname)
@@ -66,5 +68,17 @@ public class ProductService {
 
         Ebean.delete(findByID(id));
 
+    }
+
+    public static List<Product> getProductsByCategory(Long id){
+        List<Product> products = ProductService.find.query().where().eq("categories_id", id)
+                .findPagedList()
+                .getList();
+
+        if (products.size() == 0) {
+            return null;
+        }
+
+        return products;
     }
 }

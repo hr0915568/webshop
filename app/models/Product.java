@@ -3,9 +3,7 @@ package models;
 import java.util.*;
 import javax.persistence.*;
 
-import play.Logger;
 import io.ebean.*;
-import play.data.format.*;
 import play.data.validation.*;
 
 @Entity
@@ -23,6 +21,9 @@ public class Product extends Model {
 
     @Constraints.Required
     public Float price;
+
+    @ManyToOne(optional=false)
+    public Category categories;
 
     public Float getPrice() {
         return price;

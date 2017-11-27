@@ -41,7 +41,7 @@ public class ProductService {
     }
 
     public static List<Product> findProductsWithinPriceRange(Float minPrice, Float maxPrice) {
-        List<Product> products = ProductService.find.query().where().eq("price >= ", minPrice).eq("price <= ", maxPrice)
+        List<Product> products = ProductService.find.query().where().ge("price", minPrice).le("price", maxPrice)
                 .findPagedList()
                 .getList();
 
@@ -49,6 +49,7 @@ public class ProductService {
             return null;
         }
 
+        products.get(0).setViewed(products.get(0).getViewed() + 1);
         return products;
     }
 

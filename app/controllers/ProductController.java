@@ -20,21 +20,20 @@ public class ProductController extends Controller {
     @Inject
     FormFactory formFactory;
 
-    public Product addProduct() {
+    public Result addProduct() {
 
-        Form<Product> productForm = formFactory.form(Product.class).bindFromRequest();
+        Form<ProductInput> productForm = formFactory.form(ProductInput.class).bindFromRequest();
 
         if (productForm.hasErrors()) {
             return badRequest(productForm.getGlobalError().toString());
         } else {
             Product product = new Product();
-            product.setProductname(productForm.get().getProductName());
+            product.setProductname(productForm.get().getProductname());
             product.setDescription(productForm.get().getDescription());
             product.setPrice(productForm.get().getPrice());
             product.update();
             return ok("new product added");
         }
-            return product;
     }
 
 //    public Product editProduct(Long id)
@@ -65,7 +64,7 @@ public class ProductController extends Controller {
 //    }
 
     @Constraints.Validate
-    public static class Product implements Constraints.Validatable<String> {
+    public static class ProductInput implements Constraints.Validatable<String> {
 
         public String productname;
         public String description;

@@ -2,10 +2,9 @@ package models;
 
 import java.util.*;
 import javax.persistence.*;
+import javax.validation.Constraint;
 
-import play.Logger;
 import io.ebean.*;
-import play.data.format.*;
 import play.data.validation.*;
 
 @Entity
@@ -23,6 +22,12 @@ public class Product extends Model {
 
     @Constraints.Required
     public Float price;
+
+    @Constraints.Required
+    public Long viewed;
+
+    @ManyToOne(optional=false)
+    public Category categories;
 
     public Float getPrice() {
         return price;
@@ -46,5 +51,13 @@ public class Product extends Model {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Long getViewed() {
+        return viewed;
+    }
+
+    public void setViewed(Long viewed) {
+        this.viewed = viewed;
     }
 }

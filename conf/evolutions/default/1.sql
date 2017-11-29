@@ -22,6 +22,7 @@ create table product (
   productname                   varchar(255),
   description                   varchar(255),
   price                         float,
+  viewed                        bigint,
   categories_id                 bigint not null,
   constraint pk_product primary key (id)
 );

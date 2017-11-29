@@ -4,10 +4,13 @@ import models.User;
 import play.data.Form;
 import play.data.FormFactory;
 import play.data.validation.Constraints;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import services.UserService;
 
 import javax.inject.Inject;
+import java.util.List;
 
 public class AdminController extends Controller{
 
@@ -16,6 +19,10 @@ public class AdminController extends Controller{
     @Inject
     public AdminController(final FormFactory formFactory) {
         this.formFactory = formFactory;
+    }
+
+    private boolean isAdmin() {
+        return "1".equals(session("admin"));
     }
 
     public Result login() {
@@ -27,9 +34,18 @@ public class AdminController extends Controller{
         } else {
             session().clear();
             session("username", loginForm.get().getUsername());
-
+            session("admin", "1");
             return ok("success");
         }
+    }
+
+    public Result customers() {
+        if(isAdmin() == false) {
+            return badRequest("Permission denied");
+        }
+
+        List<User> users = UserService.find.all();
+        return ok(Json.toJson(users));
     }
 
 

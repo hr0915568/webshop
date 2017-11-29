@@ -18,3 +18,6 @@ POST    /login                      controllers.AuthController.login()
 
 + nocsrf
 POST    /admin/login                      controllers.AdminController.login()
+
+
+GET    /admin/customers                      controllers.AdminController.customers()

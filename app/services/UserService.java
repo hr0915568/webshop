@@ -33,4 +33,9 @@ public class UserService {
 
         return users.get(0);
     }
+
+
+    public static User findUserByID(Long id) {
+        return UserService.find.byId(id);
+    }
 }

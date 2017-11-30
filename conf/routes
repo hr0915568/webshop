@@ -21,3 +21,18 @@ POST    /admin/login                      controllers.AdminController.login()
 
 
 GET    /admin/customers                      controllers.AdminController.customers()
+
++ nocsrf
+POST    /admin/customers                      controllers.AdminController.customers()
+
+
+GET    /admin/products                      controllers.AdminController.products()
+
+
+GET    /admin/customers/:id                      controllers.AdminController.customer(id: Long)
+
++ nocsrf
+POST    /admin/customers/:id                      controllers.AdminController.editCustomer(id: Long)
+
+
+

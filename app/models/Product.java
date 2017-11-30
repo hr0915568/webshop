@@ -4,6 +4,7 @@ import java.util.*;
 import javax.persistence.*;
 import javax.validation.Constraint;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.ebean.*;
 import play.data.validation.*;
 
@@ -26,6 +27,7 @@ public class Product extends Model {
     @Constraints.Required
     public Long viewed;
 
+    @JsonIgnore
     @ManyToOne(optional=false)
     public Category categories;
 

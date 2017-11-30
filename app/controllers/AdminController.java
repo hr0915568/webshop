@@ -1,5 +1,6 @@
 package controllers;
 
+import models.Product;
 import models.User;
 import play.data.Form;
 import play.data.FormFactory;
@@ -7,6 +8,7 @@ import play.data.validation.Constraints;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import services.ProductService;
 import services.UserService;
 
 import javax.inject.Inject;
@@ -46,6 +48,99 @@ public class AdminController extends Controller{
 
         List<User> users = UserService.find.all();
         return ok(Json.toJson(users));
+    }
+
+    public Result customer(Long id) {
+        if(isAdmin() == false) {
+            return badRequest("Permission denied");
+        }
+
+        User user = UserService.findUserByID(id);
+        return ok(Json.toJson(user));
+    }
+
+    public Result editCustomer(Long id) {
+        if(isAdmin() == false) {
+            return badRequest("Permission denied");
+        }
+
+        User user = UserService.findUserByID(id);
+        if(user == null) {
+            return badRequest("user not found");
+        }
+
+        Form<EditUser>  editUserForm = formFactory.form(EditUser.class).bindFromRequest();
+
+        if (editUserForm.hasErrors()) {
+            return badRequest("Wrong inputs");
+        } else {
+            user.setFirstname(editUserForm.get().getFirstname());
+            user.setLastname(editUserForm.get().getLastname());
+            user.setEmail(editUserForm.get().getEmail());
+            user.setPassword(editUserForm.get().getPassword());
+            user.update();
+            return ok("updated");
+        }
+    }
+
+
+
+    public Result products() {
+        if(isAdmin() == false) {
+            return badRequest("Permission denied");
+        }
+
+        List<Product> products = ProductService.getAllProducts();
+        return ok(Json.toJson(products));
+    }
+
+
+    @Constraints.Validate
+    public static class EditUser implements Constraints.Validatable<String> {
+
+        public String firstname;
+        public String lastname;
+        public String email;
+        public String password;
+
+        public String getFirstname() {
+            return firstname;
+        }
+
+        public void setFirstname(String firstname) {
+            this.firstname = firstname;
+        }
+
+        public String getLastname() {
+            return lastname;
+        }
+
+        public void setLastname(String lastname) {
+            this.lastname = lastname;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
+
+        public String validate() {
+            if (firstname.length() > 0 && lastname.length() > 0 && password.length() > 0 && email.length() > 0) {
+                return null;
+            }
+            return "One of more input is not valid";
+        }
     }
 
 

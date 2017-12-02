@@ -59,10 +59,6 @@ public class ProductService {
                 .findPagedList()
                 .getList();
 
-        if (products.size() == 0) {
-            return null;
-        }
-
         return products;
     }
 
@@ -74,12 +70,9 @@ public class ProductService {
 
     public static List<Product> getProductsByCategory(Long id){
         List<Product> products = ProductService.find.query().where().eq("categories_id", id)
+                .setMaxRows(500)
                 .findPagedList()
                 .getList();
-
-        if (products.size() == 0) {
-            return null;
-        }
 
         return products;
     }

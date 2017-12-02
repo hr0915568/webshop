@@ -1,12 +1,14 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import models.Category;
 import models.Product;
 import play.data.validation.Constraints;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
+import services.CategoryService;
 import services.ProductService;
 import play.data.Form;
 import play.data.FormFactory;
@@ -53,6 +55,19 @@ public class ProductController extends Controller {
             product.update();
             return ok("success");
         }
+    }
+
+
+    public Result getAllCategories()
+    {
+        List<Category> categories = CategoryService.getAllCategories();
+        return ok(Json.toJson(categories));
+    }
+
+    public Result getCategoryProducts(Long id)
+    {
+        List<Product> products = ProductService.getProductsByCategory(id);
+        return ok(Json.toJson(products));
     }
 
     public void deleteProduct(Long id) {

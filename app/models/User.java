@@ -2,7 +2,8 @@ package models;
 
 import java.util.*;
 import javax.persistence.*;
-import play.Logger;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.ebean.*;
 import play.data.format.*;
 import play.data.validation.*;
@@ -15,8 +16,9 @@ public class User extends Model {
     @Constraints.Min(10)
     public Long id;
 
-    @OneToOne
-    protected Order order;
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    public List<OrderModel> orderModel;
 
     @Constraints.Required
     public String firstname;

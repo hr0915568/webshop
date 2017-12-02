@@ -2,7 +2,7 @@ package models;
 
 import java.util.*;
 import javax.persistence.*;
-import play.Logger;
+
 import io.ebean.*;
 import play.data.format.*;
 import play.data.validation.*;
@@ -16,7 +16,7 @@ public class User extends Model {
     public Long id;
 
     @OneToOne
-    protected Order order;
+    protected OrderModel orderModel;
 
     @Constraints.Required
     public String firstname;

@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Order extends Model{
+public class OrderModel extends Model{
 
     @Id
     @Constraints.Min(10)
@@ -22,7 +22,7 @@ public class Order extends Model{
     @Constraints.Required
     public String AddressNumberAdd;
 
-    @OneToOne(mappedBy="order")
+    @OneToOne(mappedBy= "orderModel")
     public User user;
 
     @ManyToMany(mappedBy="orderedProducts")

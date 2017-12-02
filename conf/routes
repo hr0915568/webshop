@@ -16,23 +16,36 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 POST    /login                      controllers.AuthController.login()
 
 
+#
+# Frontend routes (public)
+#######################################################################################################################
+
+GET /categories                             controllers.ProductController.getAllCategories()
+
+GET /category/:id                             controllers.ProductController.getCategoryProducts(id: Long)
+
+
+
+#
+#  Admin routes
+#######################################################################################################################
 + nocsrf
-POST    /admin/login                      controllers.AdminController.login()
+POST    /admin/login                        controllers.AdminController.login()
 
 
-GET    /admin/customers                      controllers.AdminController.customers()
+GET    /admin/customers                     controllers.AdminController.customers()
 
 + nocsrf
-POST    /admin/customers                      controllers.AdminController.customers()
+POST    /admin/customers                    controllers.AdminController.customers()
 
 
 GET    /admin/products                      controllers.AdminController.products()
 
 
-GET    /admin/customers/:id                      controllers.AdminController.customer(id: Long)
+GET    /admin/customers/:id                 controllers.AdminController.customer(id: Long)
 
 + nocsrf
-POST    /admin/customers/:id                      controllers.AdminController.editCustomer(id: Long)
+POST    /admin/customers/:id                controllers.AdminController.editCustomer(id: Long)
 
 
 

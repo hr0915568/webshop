@@ -3,10 +3,10 @@ package models;
 import io.ebean.Model;
 import play.data.validation.Constraints;
 
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
+@Entity
 public class Order extends Model{
 
     @Id
@@ -14,8 +14,65 @@ public class Order extends Model{
     public Long id;
 
     @Constraints.Required
-    public String streetAddress;
+    public String addressStreet;
 
-    @OneToMany(mappedBy="orderedProducts")
+    @Constraints.Required
+    public Long addressNumber;
+
+    @Constraints.Required
+    public String AddressNumberAdd;
+
+    @OneToOne(mappedBy="order")
+    public User user;
+
+    @ManyToMany(mappedBy="orderedProducts")
     public List<Product> products;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getAddressStreet() {
+        return addressStreet;
+    }
+
+    public void setAddressStreet(String addressStreet) {
+        this.addressStreet = addressStreet;
+    }
+
+    public Long getAddressNumber() {
+        return addressNumber;
+    }
+
+    public void setAddressNumber(Long addressNumber) {
+        this.addressNumber = addressNumber;
+    }
+
+    public String getAddressNumberAdd() {
+        return AddressNumberAdd;
+    }
+
+    public void setAddressNumberAdd(String addressNumberAdd) {
+        AddressNumberAdd = addressNumberAdd;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
 }

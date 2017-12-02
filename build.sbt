@@ -16,6 +16,7 @@ libraryDependencies += "com.typesafe.play" %% "play-mailer-guice" % "6.0.0"
 
 libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.41"
 
+
 // Test Database
 libraryDependencies += "com.h2database" % "h2" % "1.4.194"
 

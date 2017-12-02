@@ -55,6 +55,7 @@ public class ProductService {
 
     public static List<Product> getAllProducts() {
         List<Product> products = ProductService.find.query()
+                .setMaxRows(500)
                 .findPagedList()
                 .getList();
 

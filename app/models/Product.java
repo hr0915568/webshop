@@ -31,6 +31,9 @@ public class Product extends Model {
     @ManyToOne(optional=false)
     public Category categories;
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    public List<Product> orderedProducts;
+
     public Float getPrice() {
         return price;
     }

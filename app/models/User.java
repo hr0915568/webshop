@@ -15,6 +15,9 @@ public class User extends Model {
     @Constraints.Min(10)
     public Long id;
 
+    @OneToOne
+    protected Order order;
+
     @Constraints.Required
     public String firstname;
 

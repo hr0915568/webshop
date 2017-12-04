@@ -22,6 +22,7 @@ create table order_model (
   address_street                varchar(255),
   address_number                bigint,
   address_number_add            varchar(255),
+  postal_code                   varchar(255),
   user_id                       bigint not null,
   constraint pk_order_model primary key (id)
 );

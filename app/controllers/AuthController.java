@@ -99,6 +99,7 @@ public class AuthController extends Controller {
     }
 
 
+
     @Validate
     public static class Login implements Validatable<String> {
 

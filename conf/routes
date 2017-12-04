@@ -24,7 +24,10 @@ GET /categories                             controllers.ProductController.getAll
 
 GET /category/:id                             controllers.ProductController.getCategoryProducts(id: Long)
 
-
+#
+# Frontend routes for logged in users
+#######################################################################################################################
+GET /profile                                controllers.ProfileController.get()
 
 #
 #  Admin routes

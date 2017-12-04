@@ -3,6 +3,7 @@ package services;
 import io.ebean.Finder;
 import models.OrderModel;
 import models.Product;
+import models.User;
 
 import java.util.List;
 
@@ -26,6 +27,17 @@ public class OrderService {
         }
 
         return orderModelProduct.getProducts();
+    }
+
+    public static List<OrderModel> findOrdersPerUser(User user){
+        List<OrderModel> orderModels = OrderService.find.query().where().eq("user", user)
+                .findList();
+
+        if (orderModels.get(0) == null){
+            return null;
+        }
+
+        return orderModels;
     }
 
 }

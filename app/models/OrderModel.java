@@ -20,7 +20,10 @@ public class OrderModel extends Model{
     public Long addressNumber;
 
     @Constraints.Required
-    public String AddressNumberAdd;
+    public String addressNumberAdd;
+
+    @Constraints.Required
+    public String postalCode;
 
     @ManyToOne(optional=false)
     public User user;
@@ -53,11 +56,19 @@ public class OrderModel extends Model{
     }
 
     public String getAddressNumberAdd() {
-        return AddressNumberAdd;
+        return addressNumberAdd;
     }
 
     public void setAddressNumberAdd(String addressNumberAdd) {
-        AddressNumberAdd = addressNumberAdd;
+        this.addressNumberAdd = addressNumberAdd;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
 
     public User getUser() {

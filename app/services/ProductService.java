@@ -1,6 +1,7 @@
 package services;
 
 import io.ebean.Ebean;
+import io.ebean.Expr;
 import io.ebean.Finder;
 import models.Category;
 import models.Product;
@@ -8,6 +9,7 @@ import models.Product;
 import java.util.*;
 import javax.persistence.*;
 import java.util.List;
+
 
 public class ProductService {
 
@@ -25,6 +27,18 @@ public class ProductService {
         }
 
         return product.get(0);
+    }
+
+    public static List<Product> search(String search) {
+        List<Product> products = ProductService.find.query().where().or(
+                        Expr.like("productname", "%" + search + "%"),
+                        Expr.like("description",  "%" + search + "%")
+                )
+                .setMaxRows(100)
+                .findPagedList()
+                .getList();
+
+        return products;
     }
 
     public static Product findByID(Long id) {

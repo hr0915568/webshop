@@ -57,6 +57,11 @@ public class ProductController extends Controller {
         }
     }
 
+    public Result search(String criteria)
+    {
+        List<Product> products = ProductService.search(criteria);
+        return ok(Json.toJson(products));
+    }
 
     public Result getAllCategories()
     {

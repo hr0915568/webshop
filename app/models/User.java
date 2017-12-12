@@ -40,8 +40,6 @@ public class User extends Model {
     public Date dueDate = new Date();
 
 
-
-
     public static User authenticate(String email, String password) {
         User user = UserService.findByEmailAndPassword(email, password);
 

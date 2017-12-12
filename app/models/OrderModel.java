@@ -28,8 +28,8 @@ public class OrderModel extends Model{
     @ManyToOne(optional=false)
     public User user;
 
-    @ManyToMany(mappedBy="orderedProducts")
-    public List<Product> products;
+    @OneToMany(mappedBy = "order")
+    public List<OrderProducts> orderProducts;
 
     public Long getId() {
         return id;
@@ -79,11 +79,4 @@ public class OrderModel extends Model{
         this.user = user;
     }
 
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
-    }
 }

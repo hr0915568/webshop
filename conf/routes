@@ -26,6 +26,8 @@ GET /category/:id                             controllers.ProductController.getC
 
 GET /search/:criteria                       controllers.ProductController.search(criteria: String)
 
+GET /product/:id                            controllers.ProductController.getProduct(id: Long)
+
 
 #
 # Frontend routes for logged in users

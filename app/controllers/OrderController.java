@@ -45,7 +45,7 @@ public class OrderController {
     }
 
     public Result getOrderProducts(Long id){
-        List<Product> products = OrderService.findOrderProducts(id);
+        List<Product> products = OrderService.findOrderProducts(OrderService.findOrder(id));
         return ok(Json.toJson(products));
     }
 

@@ -27,6 +27,9 @@ public class Product extends Model {
     @Constraints.Required
     public Long viewed;
 
+    @Constraints.Required
+    public Long categories_id;
+
     @JsonIgnore
     @ManyToOne(optional=false)
     public Category categories;
@@ -61,5 +64,13 @@ public class Product extends Model {
 
     public void setViewed(Long viewed) {
         this.viewed = viewed;
+    }
+
+    public Long getCategories_id() {
+        return categories_id;
+    }
+
+    public void setCategories_id(Long categories_id) {
+        this.categories_id = categories_id;
     }
 }

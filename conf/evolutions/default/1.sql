@@ -17,6 +17,15 @@ create table forgotten_password_code (
   constraint pk_forgotten_password_code primary key (id)
 );
 
+create table invoice (
+  id                            bigint auto_increment not null,
+  ordermodel_id                 bigint,
+  total_price                   bigint,
+  tax_amount                    bigint,
+  constraint uq_invoice_ordermodel_id unique (ordermodel_id),
+  constraint pk_invoice primary key (id)
+);
+
 create table order_model (
   id                            bigint auto_increment not null,
   address_street                varchar(255),
@@ -27,6 +36,16 @@ create table order_model (
   constraint pk_order_model primary key (id)
 );
 
+create table order_products (
+  id                            bigint auto_increment not null,
+  order_id                      bigint not null,
+  orderedproduct_id             bigint,
+  price_at_ordertime            float,
+  quantity                      bigint,
+  constraint uq_order_products_orderedproduct_id unique (orderedproduct_id),
+  constraint pk_order_products primary key (id)
+);
+
 create table product (
   id                            bigint auto_increment not null,
   productname                   varchar(255),
@@ -35,11 +54,6 @@ create table product (
   viewed                        bigint,
   categories_id                 bigint not null,
   constraint pk_product primary key (id)
-);
-
-create table product_product (
-  product_id                    bigint auto_increment not null,
-  constraint pk_product_product primary key (product_id)
 );
 
 create table user (
@@ -54,42 +68,46 @@ create table user (
   constraint pk_user primary key (id)
 );
 
+alter table invoice add constraint fk_invoice_ordermodel_id foreign key (ordermodel_id) references order_model (id) on delete restrict on update restrict;
+
 alter table order_model add constraint fk_order_model_user_id foreign key (user_id) references user (id) on delete restrict on update restrict;
 create index ix_order_model_user_id on order_model (user_id);
+
+alter table order_products add constraint fk_order_products_order_id foreign key (order_id) references order_model (id) on delete restrict on update restrict;
+create index ix_order_products_order_id on order_products (order_id);
+
+alter table order_products add constraint fk_order_products_orderedproduct_id foreign key (orderedproduct_id) references product (id) on delete restrict on update restrict;
 
 alter table product add constraint fk_product_categories_id foreign key (categories_id) references category (id) on delete restrict on update restrict;
 create index ix_product_categories_id on product (categories_id);
 
-alter table product_product add constraint fk_product_product_product_1 foreign key (product_id) references product (id) on delete restrict on update restrict;
-create index ix_product_product_product_1 on product_product (product_id);
-
-alter table product_product add constraint fk_product_product_product_2 foreign key (product_id) references product (id) on delete restrict on update restrict;
-create index ix_product_product_product_2 on product_product (product_id);
-
 
 # --- !Downs
+
+alter table invoice drop foreign key fk_invoice_ordermodel_id;
 
 alter table order_model drop foreign key fk_order_model_user_id;
 drop index ix_order_model_user_id on order_model;
 
+alter table order_products drop foreign key fk_order_products_order_id;
+drop index ix_order_products_order_id on order_products;
+
+alter table order_products drop foreign key fk_order_products_orderedproduct_id;
+
 alter table product drop foreign key fk_product_categories_id;
 drop index ix_product_categories_id on product;
-
-alter table product_product drop foreign key fk_product_product_product_1;
-drop index ix_product_product_product_1 on product_product;
-
-alter table product_product drop foreign key fk_product_product_product_2;
-drop index ix_product_product_product_2 on product_product;
 
 drop table if exists category;
 
 drop table if exists forgotten_password_code;
 
+drop table if exists invoice;
+
 drop table if exists order_model;
 
-drop table if exists product;
+drop table if exists order_products;
 
-drop table if exists product_product;
+drop table if exists product;
 
 drop table if exists user;
 

@@ -1,13 +1,16 @@
 package controllers;
 
+import models.Category;
 import models.Product;
 import models.User;
+import org.hibernate.validator.constraints.NotEmpty;
 import play.data.Form;
 import play.data.FormFactory;
 import play.data.validation.Constraints;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import services.CategoryService;
 import services.ProductService;
 import services.UserService;
 
@@ -83,6 +86,30 @@ public class AdminController extends Controller{
         }
     }
 
+    public Result editProduct(Long id) {
+        if(isAdmin() == false) {
+            return badRequest("Permission denied");
+        }
+
+        Product product = ProductService.findByID(id);
+        if(product == null) {
+            return badRequest("user not found");
+        }
+
+        Form<EditProduct>  editProductForm = formFactory.form(EditProduct.class).bindFromRequest();
+
+        if (editProductForm.hasErrors()) {
+            return badRequest("Wrong inputs");
+        } else {
+            product.setCategories_id(editProductForm.get().getCategories_id());
+            product.setDescription(editProductForm.get().getDescription());
+            product.setPrice(editProductForm.get().getPrice());
+            product.setProductname(editProductForm.get().getProductname());
+            product.update();
+            return ok("updated");
+        }
+    }
+
 
 
     public Result products() {
@@ -94,6 +121,26 @@ public class AdminController extends Controller{
         return ok(Json.toJson(products));
     }
 
+    public Result categories() {
+        if(isAdmin() == false) {
+            return badRequest("Permission denied");
+        }
+
+        List<Category> categories = CategoryService.getAllCategories();
+        return ok(Json.toJson(categories));
+    }
+
+
+
+
+    public Result product(Long id) {
+        if(isAdmin() == false) {
+            return badRequest("Permission denied");
+        }
+
+        Product product = ProductService.findByID(id);
+        return ok(Json.toJson(product));
+    }
 
     @Constraints.Validate
     public static class EditUser implements Constraints.Validatable<String> {
@@ -140,6 +187,57 @@ public class AdminController extends Controller{
                 return null;
             }
             return "One of more input is not valid";
+        }
+    }
+
+
+    public static class EditProduct{
+
+        @NotEmpty
+        @Constraints.Required
+        public String productname;
+
+        @NotEmpty
+        @Constraints.Required
+        public String description;
+
+
+        @Constraints.Required
+        public Float price;
+
+        @Constraints.Required
+        public Long categories_id;
+
+        public String getProductname() {
+            return productname;
+        }
+
+        public void setProductname(String productname) {
+            this.productname = productname;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        public Float getPrice() {
+            return price;
+        }
+
+        public void setPrice(Float price) {
+            this.price = price;
+        }
+
+        public Long getCategories_id() {
+            return categories_id;
+        }
+
+        public void setCategories_id(Long categories_id) {
+            this.categories_id = categories_id;
         }
     }
 

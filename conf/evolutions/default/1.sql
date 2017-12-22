@@ -26,6 +26,13 @@ create table invoice (
   constraint pk_invoice primary key (id)
 );
 
+create table invoice_row (
+  id                            bigint auto_increment not null,
+  invoice_id                    integer not null,
+  description11                 varchar(255),
+  constraint pk_invoice_row primary key (id)
+);
+
 create table order_model (
   id                            bigint auto_increment not null,
   address_street                varchar(255),
@@ -102,6 +109,8 @@ drop table if exists category;
 drop table if exists forgotten_password_code;
 
 drop table if exists invoice;
+
+drop table if exists invoice_row;
 
 drop table if exists order_model;
 

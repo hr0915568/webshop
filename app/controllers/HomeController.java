@@ -22,7 +22,7 @@ public class HomeController extends Controller {
 
 
     public Result index() {
-        return ok("welcome. nothing to see here. 123");
+        return ok("welcome. nothing to see here.");
     }
 
 }

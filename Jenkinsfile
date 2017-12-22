@@ -4,7 +4,7 @@ pipeline {
     stages {
      	stage('clean') {
                 steps {
-                    echo 'Destroy database on localhost'
+                    echo 'Destroy database on localhost  '
                     sh 'mysql -u root -pPassword00 -e \'drop schema if exists webshop\''
                     echo 'Create database webshop on localhost'
                     sh 'mysql -u root -pPassword00 -e \'create schema webshop\''

@@ -15,7 +15,7 @@ pipeline {
             steps {
                 echo 'Building..'
                 sh './sbt test'
-                sh './sbt package'
+                sh './sbt dist'
             }
         }
 
@@ -23,12 +23,12 @@ pipeline {
             steps {
                 echo 'Deploying....'
                 echo 'Copy zip package to test server....'
-                sh 'scp  target/universal/webshop-1.0-SNAPSHOT.zip jinxi@192.168.1.11:~/webshop.zip'
+                sh 'scp  target/universal/webshop-1.0-SNAPSHOT.zip docker@192.168.1.7:~/webshop.zip'
                 echo 'Stop service....'
-                sh 'ssh -t jinxi@192.168.1.11 \'rm -rf webshop\''
+                sh 'ssh -t docker@192.168.1.7 \'rm -rf webshop\''
                 echo 'Start service'
-                sh 'ssh -t jinxi@192.168.1.11 \'unzip webshop.zip\''
-                sh 'ssh -t jinxi@192.168.1.11 \'webshop/bin/webshop -Dplay.http.secret.key=hrwebshop & \''
+                sh 'ssh -t docker@192.168.1.7 \'unzip webshop.zip\''
+                sh 'ssh -t docker@192.168.1.7 \'webshop/bin/webshop -Dplay.http.secret.key=hrwebshop & \''
             }
         }
     }

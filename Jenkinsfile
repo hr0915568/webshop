@@ -34,7 +34,7 @@ pipeline {
                 sh 'mysql -u root -h 192.168.1.7 -pPassword00 -e \'create schema webshop\''
                 echo 'Start service'
                 sh 'ssh -t docker@192.168.1.7 \'unzip webshop.zip\''
-                sh 'ssh -t docker@192.168.1.7 \'nohup webshop-1.0-SNAPSHOT/bin/webshop -Dplay.http.secret.key=hrwebshop -Dplay.evolutions.db.default.autoApply=true & \''
+                sh 'nohub ssh -t docker@192.168.1.7 \'webshop-1.0-SNAPSHOT/bin/webshop -Dplay.http.secret.key=hrwebshop -Dplay.evolutions.db.default.autoApply=true & \''
             }
         }
     }

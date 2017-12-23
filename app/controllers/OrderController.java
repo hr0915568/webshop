@@ -1,14 +1,17 @@
 package controllers;
 
 import models.OrderModel;
+import models.OrderProducts;
 import models.Product;
 import models.User;
+import org.hibernate.criterion.Order;
 import play.data.Form;
 import play.data.FormFactory;
 import play.data.validation.Constraints;
 import play.libs.Json;
 import play.mvc.Result;
 import services.OrderService;
+import services.ProductService;
 
 import javax.inject.Inject;
 
@@ -49,9 +52,19 @@ public class OrderController {
         return ok(Json.toJson(products));
     }
 
+    public void setOrderProducts(Long id, List<OrderProducts> orderProducts){
+        OrderModel orderModel = OrderService.findOrder(id);
+        orderModel.setOrderProducts(orderProducts);
+    }
+
     public Result getOrdersPerUser(User user){
         List<OrderModel> orders = OrderService.findOrdersPerUser(user);
         return ok(Json.toJson(orders));
+    }
+
+    public Result getOrderProductCount(Long id){
+        Integer productCount = OrderService.findProductCount(ProductService.findByID(id));
+        return ok(Json.toJson(productCount));
     }
 
     @Constraints.Validate
@@ -110,5 +123,6 @@ public class OrderController {
 
             return null;
         }
+
     }
 }

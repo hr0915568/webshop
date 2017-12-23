@@ -1,9 +1,11 @@
 package models;
 
 import io.ebean.Model;
+import play.data.format.Formats;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -24,6 +26,10 @@ public class OrderModel extends Model{
 
     @Constraints.Required
     public String postalCode;
+
+    @Constraints.Required
+    @Formats.DateTime(pattern="dd-MM-YYY")
+    public Date orderTime = new Date();
 
     @ManyToOne(optional=false)
     public User user;
@@ -79,4 +85,11 @@ public class OrderModel extends Model{
         this.user = user;
     }
 
+    public List<OrderProducts> getOrderProducts() {
+        return orderProducts;
+    }
+
+    public void setOrderProducts(List<OrderProducts> orderProducts) {
+        this.orderProducts = orderProducts;
+    }
 }

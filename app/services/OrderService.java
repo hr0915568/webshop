@@ -50,4 +50,15 @@ public class OrderService {
         return orderModels;
     }
 
+    public static Integer findProductCount(Product product){
+        List<OrderProducts> products = OrderService.findProducts.query().where().eq("orderedproduct", product)
+                .findList();
+
+        if (products.get(0) == null){
+            return 0;
+        }
+
+        return products.size();
+    }
+
 }

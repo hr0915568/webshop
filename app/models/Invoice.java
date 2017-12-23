@@ -3,6 +3,7 @@ package models;
 import io.ebean.Model;
 import play.data.validation.Constraints;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
@@ -56,4 +57,6 @@ public class Invoice extends Model{
     public void setOrdermodel(OrderModel ordermodel) {
         this.ordermodel = ordermodel;
     }
+
+
 }

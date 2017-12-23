@@ -10,7 +10,7 @@ public class CategoryService {
     public static final Finder<Long, Category> find = new Finder<>(Category.class);
 
     public static List<Category> getAllCategories() {
-        List<Category> categories = CategoryService.find.query()
+        List<Category> categories = CategoryService.find.query().fetchLazy("products")
                 .setMaxRows(500)
                 .findPagedList()
                 .getList();

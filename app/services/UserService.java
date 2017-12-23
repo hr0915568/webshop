@@ -38,4 +38,16 @@ public class UserService {
     public static User findUserByID(Long id) {
         return UserService.find.byId(id);
     }
+
+    public static User newUser(String email, String firstname, String lastname, String password)
+    {
+        User user = new User();
+        user.setEmail(email);
+        user.setFirstname(firstname);
+        user.setLastname(lastname);
+        user.setPassword(password);
+        user.save();
+
+        return user;
+    }
 }

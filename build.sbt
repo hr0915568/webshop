@@ -16,9 +16,12 @@ libraryDependencies += "com.typesafe.play" %% "play-mailer-guice" % "6.0.0"
 
 libraryDependencies += "mysql" % "mysql-connector-java" % "5.1.41"
 
-
 // Test Database
 libraryDependencies += "com.h2database" % "h2" % "1.4.194"
+
+//For creating PDF files from HTML
+libraryDependencies += "com.itextpdf" % "itextpdf" % "5.4.2"
+libraryDependencies += "com.itextpdf.tool" % "xmlworker" % "5.4.1"
 
 // Testing libraries for dealing with CompletionStage...
 libraryDependencies += "org.assertj" % "assertj-core" % "3.6.2" % Test

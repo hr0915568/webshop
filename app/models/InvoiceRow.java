@@ -10,9 +10,8 @@ public class InvoiceRow {
     @Id
     public Long id;
 
-    @Column(name = "invoice_id")
-    public int invoiceId;
-
+//    @Column(name = "invoice_id")
+//    public int invoiceId;
 
     public String description11;
 

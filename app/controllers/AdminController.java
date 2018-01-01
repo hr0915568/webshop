@@ -1,6 +1,7 @@
 package controllers;
 
 import models.Category;
+import models.OrderModel;
 import models.Product;
 import models.User;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -11,6 +12,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import services.CategoryService;
+import services.OrderService;
 import services.ProductService;
 import services.UserService;
 
@@ -86,6 +88,26 @@ public class AdminController extends Controller{
         }
     }
 
+    public Result addProduct() {
+        if(isAdmin() == false) {
+            return badRequest("Permission denied");
+        }
+
+        Form<ProductController.ProductInput> productForm = formFactory.form(ProductController.ProductInput.class).bindFromRequest();
+
+        if (productForm.hasErrors()) {
+            return badRequest(productForm.getGlobalError().toString());
+        } else {
+            Product product = new Product();
+            product.setProductname(productForm.get().getProductname());
+            product.setDescription(productForm.get().getDescription());
+            product.setPrice(productForm.get().getPrice());
+            product.update();
+            return ok("new product added");
+        }
+    }
+
+
     public Result editProduct(Long id) {
         if(isAdmin() == false) {
             return badRequest("Permission denied");
@@ -93,10 +115,10 @@ public class AdminController extends Controller{
 
         Product product = ProductService.findByID(id);
         if(product == null) {
-            return badRequest("user not found");
+            return badRequest("product not found");
         }
 
-        Form<EditProduct>  editProductForm = formFactory.form(EditProduct.class).bindFromRequest();
+        Form<EditProduct> editProductForm = formFactory.form(EditProduct.class).bindFromRequest();
 
         if (editProductForm.hasErrors()) {
             return badRequest("Wrong inputs");
@@ -110,7 +132,38 @@ public class AdminController extends Controller{
         }
     }
 
+    public Result deleteProduct(Long id) {
+        if (isAdmin() == false) {
+            return badRequest("Permission denied");
+        } else {
+            ProductService.deleteProduct(id);
+            return ok("deleted");
+        }
+    }
 
+    public Result editOrder(Long id){
+        if (isAdmin() == false) {
+            return badRequest("Permission denied");
+        }
+
+        OrderModel order = OrderService.findOrder(id);
+        if(order == null){
+            return badRequest("Order not found");
+        }
+
+        Form<EditOrder> editOrderForm = formFactory.form(EditOrder.class).bindFromRequest();
+
+        if (editOrderForm.hasErrors()) {
+            return badRequest("Wrong inputs");
+        } else {
+            order.setAddressStreet(editOrderForm.get().getAddressStreet());
+            order.setAddressNumber(editOrderForm.get().getAddressNumber());
+            order.setAddressNumberAdd(editOrderForm.get().getAddressNumberAdd());
+            order.setPostalCode(editOrderForm.get().getPostalCode());
+            order.update();
+            return ok("updated");
+        }
+    }
 
     public Result products() {
         if(isAdmin() == false) {
@@ -129,8 +182,6 @@ public class AdminController extends Controller{
         List<Category> categories = CategoryService.getAllCategories();
         return ok(Json.toJson(categories));
     }
-
-
 
 
     public Result product(Long id) {
@@ -190,6 +241,64 @@ public class AdminController extends Controller{
         }
     }
 
+    @Constraints.Validate
+    public static class EditOrder implements Constraints.Validatable<String> {
+
+        public String addressStreet;
+        public Long addressNumber;
+        public String addressNumberAdd;
+        public String postalCode;
+
+        public String getAddressStreet() {
+            return addressStreet;
+        }
+
+        public void setAddressStreet(String addressStreet) {
+            this.addressStreet = addressStreet;
+        }
+
+        public Long getAddressNumber() {
+            return addressNumber;
+        }
+
+        public void setAddressNumber(Long addressNumber) {
+            this.addressNumber = addressNumber;
+        }
+
+        public String getAddressNumberAdd() {
+            return addressNumberAdd;
+        }
+
+        public void setAddressNumberAdd(String addressNumberAdd) {
+            this.addressNumberAdd = addressNumberAdd;
+        }
+
+        public String getPostalCode() {
+            return postalCode;
+        }
+
+        public void setPostalCode(String postalCode) {
+            this.postalCode = postalCode;
+        }
+
+        public String validate() {
+
+            if (addressStreet == null) {
+                return "addressStreet cannot be empty";
+            }
+
+            if (addressNumber == null) {
+                return "addressNumber cannot be empty";
+            }
+
+            if (postalCode == null) {
+                return "postalCode cannot be empty";
+            }
+
+            return null;
+        }
+
+    }
 
     public static class EditProduct{
 
@@ -200,7 +309,6 @@ public class AdminController extends Controller{
         @NotEmpty
         @Constraints.Required
         public String description;
-
 
         @Constraints.Required
         public Float price;

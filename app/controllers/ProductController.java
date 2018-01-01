@@ -23,22 +23,6 @@ public class ProductController extends Controller {
     @Inject
     FormFactory formFactory;
 
-    public Result addProduct() {
-
-        Form<ProductInput> productForm = formFactory.form(ProductInput.class).bindFromRequest();
-
-        if (productForm.hasErrors()) {
-            return badRequest(productForm.getGlobalError().toString());
-        } else {
-            Product product = new Product();
-            product.setProductname(productForm.get().getProductname());
-            product.setDescription(productForm.get().getDescription());
-            product.setPrice(productForm.get().getPrice());
-            product.update();
-            return ok("new product added");
-        }
-    }
-
     public Result editProduct(Long id)
     {
 
@@ -73,12 +57,6 @@ public class ProductController extends Controller {
     {
         List<Product> products = ProductService.getProductsByCategory(id);
         return ok(Json.toJson(products));
-    }
-
-    public void deleteProduct(Long id) {
-
-        ProductService.deleteProduct(id);
-
     }
 
     public List<Product> getAllProducts() {

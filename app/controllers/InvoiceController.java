@@ -1,11 +1,14 @@
 package controllers;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
+import it.innove.play.pdf.PdfGenerator;
+import com.typesafe.config.Config;
 import play.mvc.Controller;
+import play.mvc.Result;
+import play.mvc.Results;
+import views.html.invoice;
 
+
+import javax.inject.Inject;
 
 import java.io.FileOutputStream;
 import java.io.FileNotFoundException;
@@ -13,29 +16,16 @@ import java.io.FileNotFoundException;
 
 public class InvoiceController extends Controller {
 
-    public static Document invoice() {
+    @Inject
+    public PdfGenerator pdfGenerator;
 
-        Document document = new Document();
+    @Inject
+    public Config configuration;
 
-        try {
-            PdfWriter.getInstance(document,
-                    new FileOutputStream("HelloWorld.pdf"));
+   public Result download() {
 
-            document.open();
-            document.add(new Paragraph("A Hello World PDF document."));
-            document.close(); // no need to close PDFwriter?
+       return pdfGenerator.ok(invoice.render("Hello world"), "api.hrwebshop.tk");
+   }
 
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
 
-        return document;
-
-    }
-
-    public static void main(String[] args) {
-        invoice();
-    }
 }

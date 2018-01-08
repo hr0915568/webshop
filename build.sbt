@@ -27,10 +27,13 @@ libraryDependencies += "com.itextpdf.tool" % "xmlworker" % "5.4.1"
 libraryDependencies += "org.assertj" % "assertj-core" % "3.6.2" % Test
 libraryDependencies += "org.awaitility" % "awaitility" % "2.0.0" % Test
 libraryDependencies += "org.mockito" % "mockito-core" % "2.10.0" % "test"
+libraryDependencies += "org.mockito" % "mockito-core" % "2.10.0" % "test"
+
 // Make verbose tests
 testOptions in Test := Seq(Tests.Argument(TestFrameworks.JUnit, "-a", "-v"))
 
 libraryDependencies ++= Seq(
   javaJpa,
-  "org.hibernate" % "hibernate-entitymanager" % "5.1.0.Final" // replace by your jpa implementation
+  "org.hibernate" % "hibernate-entitymanager" % "5.1.0.Final",
+  "it.innove" % "play2-pdf" % "1.7.0"
 )

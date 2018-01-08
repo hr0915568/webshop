@@ -1,13 +1,21 @@
 package controllers;
 
 import models.ForgottenPasswordCode;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.internal.constraintvalidators.hv.EmailValidator;
 import play.api.Play;
+import play.api.i18n.Lang;
+import play.api.i18n.Messages;
+import play.api.i18n.MessagesApi;
+import play.data.validation.Constraints;
+import play.data.validation.ValidationError;
 import play.mvc.*;
 import play.data.*;
 import play.Logger;
 
 import javax.inject.*;
 
+import scala.collection.Seq;
 import services.MailerService;
 import services.UserService;
 import views.html.*;
@@ -15,6 +23,10 @@ import models.User;
 import play.data.validation.Constraints.Validate;
 import play.data.validation.Constraints.Validatable;
 import play.api.Configuration;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Locale;
 
 /**
  * This controller contains an action to handle HTTP requests
@@ -28,6 +40,9 @@ public class AuthController extends Controller {
     @Inject
     MailerService mailerService;
 
+    @Inject
+    MessagesApi messagesApi;
+
     /**
      * An action that renders an HTML page with a welcome message.
      * The configuration in the <code>routes</code> file means that
@@ -39,6 +54,7 @@ public class AuthController extends Controller {
     }
 
     private final FormFactory formFactory;
+
 
 
     public Result resetPassword() {
@@ -97,6 +113,76 @@ public class AuthController extends Controller {
             return ok("success");
         }
     }
+
+    public Result register() {
+        Form<User> registerationForm = formFactory.form(User.class).bindFromRequest();
+
+        if (registerationForm.hasErrors()) {
+            String error = registerationForm.allErrors().get(0).message();
+//            Collection<Lang> candidates = Collections.singletonList(new Lang(Locale.US));
+//            Messages messages = messagesApi.preferred(candidates);
+            return badRequest(messagesApi.messages().get("default").get().get(error).get());
+        }
+
+        UserService.newUser(registerationForm.get().getEmail(),
+                registerationForm.get().getFirstname(),
+                registerationForm.get().getLastname(),
+                registerationForm.get().getPassword()
+        );
+
+
+        return ok("success");
+    }
+
+    @Validate
+    public static class Registeration{
+
+        @Constraints.Email
+        public String email;
+
+        @Constraints.Required
+        public String password;
+
+
+        public String firstname;
+
+
+        public String lastname;
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
+
+        public String getFirstname() {
+            return firstname;
+        }
+
+        public void setFirstname(String firstname) {
+            this.firstname = firstname;
+        }
+
+        public String getLastname() {
+            return lastname;
+        }
+
+        public void setLastname(String lastname) {
+            this.lastname = lastname;
+        }
+
+    }
+
 
 
     @Validate

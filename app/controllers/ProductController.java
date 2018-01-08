@@ -1,12 +1,14 @@
 package controllers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import models.Category;
 import models.Product;
 import play.data.validation.Constraints;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
+import services.CategoryService;
 import services.ProductService;
 import play.data.Form;
 import play.data.FormFactory;
@@ -20,22 +22,6 @@ public class ProductController extends Controller {
 
     @Inject
     FormFactory formFactory;
-
-    public Result addProduct() {
-
-        Form<ProductInput> productForm = formFactory.form(ProductInput.class).bindFromRequest();
-
-        if (productForm.hasErrors()) {
-            return badRequest(productForm.getGlobalError().toString());
-        } else {
-            Product product = new Product();
-            product.setProductname(productForm.get().getProductname());
-            product.setDescription(productForm.get().getDescription());
-            product.setPrice(productForm.get().getPrice());
-            product.update();
-            return ok("new product added");
-        }
-    }
 
     public Result editProduct(Long id)
     {
@@ -55,10 +41,22 @@ public class ProductController extends Controller {
         }
     }
 
-    public void deleteProduct(Long id) {
+    public Result search(String criteria)
+    {
+        List<Product> products = ProductService.search(criteria);
+        return ok(Json.toJson(products));
+    }
 
-        ProductService.deleteProduct(id);
+    public Result getAllCategories()
+    {
+        List<Category> categories = CategoryService.getAllCategories();
+        return ok(Json.toJson(categories));
+    }
 
+    public Result getCategoryProducts(Long id)
+    {
+        List<Product> products = ProductService.getProductsByCategory(id);
+        return ok(Json.toJson(products));
     }
 
     public List<Product> getAllProducts() {
@@ -66,6 +64,11 @@ public class ProductController extends Controller {
     }
 
     public List<Product> getProductsByCategory(Long id){return ProductService.getProductsByCategory(id);}
+
+    public Result getProduct(Long id) {
+        Product product = ProductService.findByID(id);
+        return ok(Json.toJson(product));
+    }
 
     @Constraints.Validate
     public static class ProductInput implements Constraints.Validatable<String> {

@@ -2,7 +2,8 @@ package models;
 
 import java.util.*;
 import javax.persistence.*;
-import play.Logger;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.ebean.*;
 import play.data.format.*;
 import play.data.validation.*;
@@ -14,6 +15,10 @@ public class User extends Model {
     @Id
     @Constraints.Min(10)
     public Long id;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    public List<OrderModel> orderModel;
 
     @Constraints.Required
     public String firstname;
@@ -33,8 +38,6 @@ public class User extends Model {
 
     @Formats.DateTime(pattern="dd/MM/yyyy")
     public Date dueDate = new Date();
-
-
 
 
     public static User authenticate(String email, String password) {

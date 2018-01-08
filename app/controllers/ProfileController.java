@@ -35,7 +35,7 @@ public class ProfileController extends Controller {
         return UserService.findByEmail(email);
     }
 
-    public Result edit()
+    public Result save()
     {
         if(isLoggedIn() == false) {
             return badRequest("Not logged in");

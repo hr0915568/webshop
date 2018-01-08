@@ -14,3 +14,64 @@ GET     /assets/*file               controllers.Assets.versioned(path="/public",
 
 + nocsrf
 POST    /login                      controllers.AuthController.login()
+
++ nocsrf
+POST    /register                      controllers.AuthController.register()
+
+GET /download                               controllers.InvoiceController.download()
+
+#
+# Frontend routes (public)
+#######################################################################################################################
+
+GET /categories                             controllers.ProductController.getAllCategories()
+
+GET /category/:id                             controllers.ProductController.getCategoryProducts(id: Long)
+
+GET /search/:criteria                       controllers.ProductController.search(criteria: String)
+
+GET /product/:id                            controllers.ProductController.getProduct(id: Long)
+
+
+#
+# Frontend routes for logged in users
+#######################################################################################################################
+GET /profile                                controllers.ProfileController.get()
+
++ nocsrf
+POST /profile                                controllers.ProfileController.save()
+
+
+
+
+#
+#  Admin routes
+#######################################################################################################################
++ nocsrf
+POST    /admin/login                        controllers.AdminController.login()
+
+
+GET    /admin/customers                     controllers.AdminController.customers()
+
++ nocsrf
+POST    /admin/customers                    controllers.AdminController.customers()
+
+
+GET    /admin/products                      controllers.AdminController.products()
+
+GET    /admin/products/:id                  controllers.AdminController.product(id: Long)
+
++ nocsrf
+POST    /admin/products/:id                  controllers.AdminController.editProduct(id: Long)
+
+
+
+GET    /admin/customers/:id                 controllers.AdminController.customer(id: Long)
+
++ nocsrf
+POST    /admin/customers/:id                controllers.AdminController.editCustomer(id: Long)
+
+GET     /admin/categories                   controllers.AdminController.categories()
+
+
+

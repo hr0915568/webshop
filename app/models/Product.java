@@ -22,6 +22,9 @@ public class Product extends Model {
     public String description;
 
     @Constraints.Required
+    public String filename;  
+
+    @Constraints.Required
     public Float price;
 
     @Constraints.Required
@@ -57,6 +60,14 @@ public class Product extends Model {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }        
 
     public Long getViewed() {
         return viewed;

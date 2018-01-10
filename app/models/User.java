@@ -18,7 +18,7 @@ public class User extends Model {
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")
-    public List<OrderModel> orderModel;
+    public List<Order> order;
 
     @Constraints.Required
     public String firstname;
@@ -33,6 +33,8 @@ public class User extends Model {
 
     @Constraints.Required
     public String lastname;
+
+
 
     public boolean done;
 

@@ -4,17 +4,16 @@ import io.ebean.Model;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
-public class OrderProducts extends Model {
+public class OrderProduct extends Model {
 
     @Id
     @Constraints.Min(10)
     public Long id;
 
     @ManyToOne(optional=false)
-    public OrderModel order;
+    public Order order;
 
     //this only works if we use softdeletes. Otherwise name of product should be stored
     @OneToOne
@@ -24,7 +23,7 @@ public class OrderProducts extends Model {
     public Float priceAtOrdertime;
 
     @Constraints.Required
-    public Long quantity;
+    public Integer quantity;
 
     public Long getId() {
         return id;
@@ -50,19 +49,19 @@ public class OrderProducts extends Model {
         this.orderedproduct = orderedproduct;
     }
 
-    public Long getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Long quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
-    public OrderModel getOrder() {
+    public Order getOrder() {
         return order;
     }
 
-    public void setOrder(OrderModel order) {
+    public void setOrder(Order order) {
         this.order = order;
     }
 }

@@ -78,18 +78,20 @@ public class AuthController extends Controller {
 
 
     public Result forgottenPassword() {
+
         Form<ForgottenPasswordForm> forgottenPasswordFormForm = formFactory.form(ForgottenPasswordForm.class).bindFromRequest();
 
         if (forgottenPasswordFormForm.hasErrors()) {
             return badRequest("Account not found.");
         } else {
+            User user = UserService.findByEmail(forgottenPasswordFormForm.get().getEmail());
             /*
             generate code and send email with forgotten password link.
              */
-            ForgottenPasswordCode forgottenPasswordCode = ForgottenPasswordCode.generateNewCode(forgottenPasswordFormForm.get().getEmail());
+            //ForgottenPasswordCode forgottenPasswordCode = ForgottenPasswordCode.generateNewCode(forgottenPasswordFormForm.get().getEmail());
             //String appURL = configuration.getString("play.app.url", null).toString();
-            String appURL = "http://localhost";
-            String message = "Use this url to change your password: " + appURL + "?code=" + forgottenPasswordCode.code;
+            //String appURL = "http://hrwebshop.tk";
+            String message = "You password is " + user.getPassword();
             mailerService.sendEmail(forgottenPasswordFormForm.get().email, "You have forgotten your password", message);
             return ok("success");
         }

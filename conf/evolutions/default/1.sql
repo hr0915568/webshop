@@ -20,37 +20,50 @@ create table forgotten_password_code (
 create table invoice (
   id                            bigint auto_increment not null,
   ordermodel_id                 bigint,
-  total_price                   bigint,
-  tax_amount                    bigint,
+  user_id                       bigint,
+  invoice_date                  datetime(6),
+  country                       varchar(255),
+  zipcode                       varchar(255),
+  street                        varchar(255),
+  street_number                 varchar(255),
+  address_extra                 varchar(255),
+  shipping_costs                float,
   constraint uq_invoice_ordermodel_id unique (ordermodel_id),
   constraint pk_invoice primary key (id)
 );
 
 create table invoice_row (
   id                            bigint auto_increment not null,
-  description11                 varchar(255),
+  description                   varchar(255),
+  invoice_id                    bigint,
+  unit_price                    float,
+  quantity                      integer,
   constraint pk_invoice_row primary key (id)
 );
 
-create table order_model (
+create table `order` (
   id                            bigint auto_increment not null,
-  address_street                varchar(255),
-  address_number                bigint,
-  address_number_add            varchar(255),
-  postal_code                   varchar(255),
+  street                        varchar(255),
+  street_number                 varchar(255),
+  address_extra                 varchar(255),
+  zipcode                       varchar(255),
+  country                       varchar(255),
+  city                          varchar(255),
+  company                       varchar(255),
+  notes                         varchar(255),
   order_time                    datetime(6),
   user_id                       bigint not null,
-  constraint pk_order_model primary key (id)
+  constraint pk_order primary key (id)
 );
 
-create table order_products (
+create table order_product (
   id                            bigint auto_increment not null,
   order_id                      bigint not null,
   orderedproduct_id             bigint,
   price_at_ordertime            float,
-  quantity                      bigint,
-  constraint uq_order_products_orderedproduct_id unique (orderedproduct_id),
-  constraint pk_order_products primary key (id)
+  quantity                      integer,
+  constraint uq_order_product_orderedproduct_id unique (orderedproduct_id),
+  constraint pk_order_product primary key (id)
 );
 
 create table product (
@@ -75,15 +88,21 @@ create table user (
   constraint pk_user primary key (id)
 );
 
-alter table invoice add constraint fk_invoice_ordermodel_id foreign key (ordermodel_id) references order_model (id) on delete restrict on update restrict;
+alter table invoice add constraint fk_invoice_ordermodel_id foreign key (ordermodel_id) references `order` (id) on delete restrict on update restrict;
 
-alter table order_model add constraint fk_order_model_user_id foreign key (user_id) references user (id) on delete restrict on update restrict;
-create index ix_order_model_user_id on order_model (user_id);
+alter table invoice add constraint fk_invoice_user_id foreign key (user_id) references user (id) on delete restrict on update restrict;
+create index ix_invoice_user_id on invoice (user_id);
 
-alter table order_products add constraint fk_order_products_order_id foreign key (order_id) references order_model (id) on delete restrict on update restrict;
-create index ix_order_products_order_id on order_products (order_id);
+alter table invoice_row add constraint fk_invoice_row_invoice_id foreign key (invoice_id) references invoice (id) on delete restrict on update restrict;
+create index ix_invoice_row_invoice_id on invoice_row (invoice_id);
 
-alter table order_products add constraint fk_order_products_orderedproduct_id foreign key (orderedproduct_id) references product (id) on delete restrict on update restrict;
+alter table `order` add constraint fk_order_user_id foreign key (user_id) references user (id) on delete restrict on update restrict;
+create index ix_order_user_id on `order` (user_id);
+
+alter table order_product add constraint fk_order_product_order_id foreign key (order_id) references `order` (id) on delete restrict on update restrict;
+create index ix_order_product_order_id on order_product (order_id);
+
+alter table order_product add constraint fk_order_product_orderedproduct_id foreign key (orderedproduct_id) references product (id) on delete restrict on update restrict;
 
 alter table product add constraint fk_product_categories_id foreign key (categories_id) references category (id) on delete restrict on update restrict;
 create index ix_product_categories_id on product (categories_id);
@@ -93,13 +112,19 @@ create index ix_product_categories_id on product (categories_id);
 
 alter table invoice drop foreign key fk_invoice_ordermodel_id;
 
-alter table order_model drop foreign key fk_order_model_user_id;
-drop index ix_order_model_user_id on order_model;
+alter table invoice drop foreign key fk_invoice_user_id;
+drop index ix_invoice_user_id on invoice;
 
-alter table order_products drop foreign key fk_order_products_order_id;
-drop index ix_order_products_order_id on order_products;
+alter table invoice_row drop foreign key fk_invoice_row_invoice_id;
+drop index ix_invoice_row_invoice_id on invoice_row;
 
-alter table order_products drop foreign key fk_order_products_orderedproduct_id;
+alter table `order` drop foreign key fk_order_user_id;
+drop index ix_order_user_id on `order`;
+
+alter table order_product drop foreign key fk_order_product_order_id;
+drop index ix_order_product_order_id on order_product;
+
+alter table order_product drop foreign key fk_order_product_orderedproduct_id;
 
 alter table product drop foreign key fk_product_categories_id;
 drop index ix_product_categories_id on product;
@@ -112,9 +137,9 @@ drop table if exists invoice;
 
 drop table if exists invoice_row;
 
-drop table if exists order_model;
+drop table if exists `order`;
 
-drop table if exists order_products;
+drop table if exists order_product;
 
 drop table if exists product;
 

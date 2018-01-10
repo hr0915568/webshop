@@ -1,0 +1,5 @@
+INSERT INTO webshop.user (id, firstname, email, password, lastname, done, due_date) VALUES (1, 'test', 'test@test.nl', 'test123', 'testtt', 0, '2018-01-08 19:25:35.626000');
+INSERT INTO webshop.category (id, category_name) VALUES (1, 'banden');
+INSERT INTO webshop.category (id, category_name) VALUES (2, 'ruiten');
+INSERT INTO webshop.product (id, productname, description, price, viewed, categories_id) VALUES (1, 'testruit1', 'test ruit desc', 120.5, 0, 2);
+INSERT INTO webshop.product (id, productname, description, price, viewed, categories_id) VALUES (2, 'testbanden', 'test banden', 100, 0, 1);

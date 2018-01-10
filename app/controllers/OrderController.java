@@ -1,10 +1,6 @@
 package controllers;
 
-import models.OrderModel;
-import models.OrderProducts;
-import models.Product;
-import models.User;
-import org.hibernate.criterion.Order;
+import models.*;
 import play.data.Form;
 import play.data.FormFactory;
 import play.data.validation.Constraints;
@@ -32,18 +28,13 @@ public class OrderController {
         if (orderForm.hasErrors()) {
             return badRequest(orderForm.getGlobalError().toString());
         } else {
-            OrderModel order = new OrderModel();
-            order.setAddressStreet(orderForm.get().getAddressStreet());
-            order.setAddressNumber(orderForm.get().getAddressNumber());
-            order.setAddressNumberAdd(orderForm.get().getAddressNumberAdd());
-            order.setPostalCode(orderForm.get().getPostalCode());
-            order.update();
+
             return ok("order placed");
         }
     }
 
     public Result getOrder(Long id){
-        OrderModel order = OrderService.findOrder(id);
+        Order order = OrderService.findOrder(id);
         return ok(Json.toJson(order));
     }
 
@@ -52,13 +43,13 @@ public class OrderController {
         return ok(Json.toJson(products));
     }
 
-    public void setOrderProducts(Long id, List<OrderProducts> orderProducts){
-        OrderModel orderModel = OrderService.findOrder(id);
-        orderModel.setOrderProducts(orderProducts);
+    public void setOrderProducts(Long id, List<OrderProduct> orderProducts){
+        Order order = OrderService.findOrder(id);
+        order.setOrderProducts(orderProducts);
     }
 
     public Result getOrdersPerUser(User user){
-        List<OrderModel> orders = OrderService.findOrdersPerUser(user);
+        List<Order> orders = OrderService.findOrdersPerUser(user);
         return ok(Json.toJson(orders));
     }
 
@@ -69,60 +60,154 @@ public class OrderController {
 
     @Constraints.Validate
     public static class OrderInput implements Constraints.Validatable<String> {
+        public String firtsName;
+        public String lastName;
+        public String company;
 
-        public String addressStreet;
-        public Long addressNumber;
-        public String addressNumberAdd;
-        public String postalCode;
+        public String country;
+        public String city;
+        public String zipcode;
 
-        public String getAddressStreet() {
-            return addressStreet;
+        public String street;
+        public String streetNumber;
+        public String addressExtra;
+
+        public String email;
+        public String phone;
+
+        public String password;
+        public String orderNotes;
+
+        public List<CartProduct> products;
+
+
+        public String getFirtsName() {
+            return firtsName;
         }
 
-        public void setAddressStreet(String addressStreet) {
-            this.addressStreet = addressStreet;
+        public void setFirtsName(String firtsName) {
+            this.firtsName = firtsName;
         }
 
-        public Long getAddressNumber() {
-            return addressNumber;
+        public String getLastName() {
+            return lastName;
         }
 
-        public void setAddressNumber(Long addressNumber) {
-            this.addressNumber = addressNumber;
+        public void setLastName(String lastName) {
+            this.lastName = lastName;
         }
 
-        public String getAddressNumberAdd() {
-            return addressNumberAdd;
+        public String getCompany() {
+            return company;
         }
 
-        public void setAddressNumberAdd(String addressNumberAdd) {
-            this.addressNumberAdd = addressNumberAdd;
+        public void setCompany(String company) {
+            this.company = company;
         }
 
-        public String getPostalCode() {
-            return postalCode;
+        public String getCountry() {
+            return country;
         }
 
-        public void setPostalCode(String postalCode) {
-            this.postalCode = postalCode;
+        public void setCountry(String country) {
+            this.country = country;
+        }
+
+        public String getCity() {
+            return city;
+        }
+
+        public void setCity(String city) {
+            this.city = city;
+        }
+
+        public String getZipcode() {
+            return zipcode;
+        }
+
+        public void setZipcode(String zipcode) {
+            this.zipcode = zipcode;
+        }
+
+        public String getStreet() {
+            return street;
+        }
+
+        public void setStreet(String street) {
+            this.street = street;
+        }
+
+        public String getStreetNumber() {
+            return streetNumber;
+        }
+
+        public void setStreetNumber(String streetNumber) {
+            this.streetNumber = streetNumber;
+        }
+
+        public String getAddressExtra() {
+            return addressExtra;
+        }
+
+        public void setAddressExtra(String addressExtra) {
+            addressExtra = addressExtra;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
+        public String getPhone() {
+            return phone;
+        }
+
+        public void setPhone(String phone) {
+            this.phone = phone;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
         }
 
         public String validate() {
 
-            if (addressStreet == null) {
+            if (street == null) {
                 return "addressStreet cannot be empty";
             }
 
-            if (addressNumber == null) {
+            if (streetNumber == null) {
                 return "addressNumber cannot be empty";
             }
 
-            if (postalCode == null) {
+            if (zipcode == null) {
                 return "postalCode cannot be empty";
             }
 
             return null;
         }
 
+        public String getOrderNotes() {
+            return orderNotes;
+        }
+
+        public void setOrderNotes(String orderNotes) {
+            this.orderNotes = orderNotes;
+        }
+
+        public List<CartProduct> getProducts() {
+            return products;
+        }
+
+        public void setProducts(List<CartProduct> products) {
+            this.products = products;
+        }
     }
 }

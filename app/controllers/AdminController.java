@@ -1,7 +1,7 @@
 package controllers;
 
 import models.Category;
-import models.OrderModel;
+import models.Order;
 import models.Product;
 import models.User;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -146,7 +146,7 @@ public class AdminController extends Controller{
             return badRequest("Permission denied");
         }
 
-        OrderModel order = OrderService.findOrder(id);
+        Order order = OrderService.findOrder(id);
         if(order == null){
             return badRequest("Order not found");
         }
@@ -156,11 +156,11 @@ public class AdminController extends Controller{
         if (editOrderForm.hasErrors()) {
             return badRequest("Wrong inputs");
         } else {
-            order.setAddressStreet(editOrderForm.get().getAddressStreet());
-            order.setAddressNumber(editOrderForm.get().getAddressNumber());
-            order.setAddressNumberAdd(editOrderForm.get().getAddressNumberAdd());
-            order.setPostalCode(editOrderForm.get().getPostalCode());
-            order.update();
+//            order.setStreet(editOrderForm.get().getAddressStreet());
+//            order.set(editOrderForm.get().getAddressNumber());
+//            order.setAddressNumberAdd(editOrderForm.get().getAddressNumberAdd());
+//            order.setPostalCode(editOrderForm.get().getPostalCode());
+//            order.update();
             return ok("updated");
         }
     }

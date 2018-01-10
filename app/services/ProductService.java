@@ -51,6 +51,7 @@ public class ProductService {
             return null;
         }
 
+        product.get(0).setViewed(product.get(0).getViewed() + 1);
         return product.get(0);
     }
 

@@ -62,7 +62,6 @@ create table order_product (
   orderedproduct_id             bigint,
   price_at_ordertime            float,
   quantity                      integer,
-  constraint uq_order_product_orderedproduct_id unique (orderedproduct_id),
   constraint pk_order_product primary key (id)
 );
 
@@ -70,6 +69,7 @@ create table product (
   id                            bigint auto_increment not null,
   productname                   varchar(255),
   description                   varchar(255),
+  filename                      varchar(255),
   price                         float,
   viewed                        bigint,
   categories_id                 bigint not null,
@@ -103,6 +103,7 @@ alter table order_product add constraint fk_order_product_order_id foreign key (
 create index ix_order_product_order_id on order_product (order_id);
 
 alter table order_product add constraint fk_order_product_orderedproduct_id foreign key (orderedproduct_id) references product (id) on delete restrict on update restrict;
+create index ix_order_product_orderedproduct_id on order_product (orderedproduct_id);
 
 alter table product add constraint fk_product_categories_id foreign key (categories_id) references category (id) on delete restrict on update restrict;
 create index ix_product_categories_id on product (categories_id);
@@ -125,6 +126,7 @@ alter table order_product drop foreign key fk_order_product_order_id;
 drop index ix_order_product_order_id on order_product;
 
 alter table order_product drop foreign key fk_order_product_orderedproduct_id;
+drop index ix_order_product_orderedproduct_id on order_product;
 
 alter table product drop foreign key fk_product_categories_id;
 drop index ix_product_categories_id on product;

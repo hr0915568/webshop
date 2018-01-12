@@ -16,7 +16,7 @@ public class OrderProduct extends Model {
     public Order order;
 
     //this only works if we use softdeletes. Otherwise name of product should be stored
-    @OneToOne
+    @ManyToOne
     public Product orderedproduct;
 
     @Constraints.Required

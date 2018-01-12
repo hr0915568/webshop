@@ -5,6 +5,9 @@ public class CartProduct {
     public Integer productId;
     public Integer quantity;
 
+    public CartProduct() {
+    }
+
     public CartProduct(Integer productId, Integer quantity) {
         this.productId = productId;
         this.quantity = quantity;

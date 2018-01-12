@@ -5,9 +5,11 @@ import play.data.Form;
 import play.data.FormFactory;
 import play.data.validation.Constraints;
 import play.libs.Json;
+import play.mvc.Controller;
 import play.mvc.Result;
 import services.OrderService;
 import services.ProductService;
+import services.UserService;
 
 import javax.inject.Inject;
 
@@ -16,22 +18,51 @@ import java.util.List;
 import static play.mvc.Results.badRequest;
 import static play.mvc.Results.ok;
 
-public class OrderController {
+public class OrderController extends Controller{
 
     @Inject
     FormFactory formFactory;
 
-    public Result placeOrder() {
+    private boolean isLoggedIn()
+    {
+        String email = session("email");
+        if(email == null || email.length() <= 1) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private User getSessionUser()
+    {
+        String email = session("email");
+        return UserService.findByEmail(email);
+    }
+
+    public Result placeOrderAsGuest() {
+
+        Form<OrderInputGuest> orderForm = formFactory.form(OrderInputGuest.class).bindFromRequest();
+
+        if (orderForm.hasErrors()) {
+            return badRequest(orderForm.getGlobalError().toString());
+        } else {
+            OrderService.placeOrderAsGuest(orderForm.get());
+            return ok("order placed");
+        }
+    }
+
+    public Result placeOrderAsRegisteredUser() {
 
         Form<OrderInput> orderForm = formFactory.form(OrderInput.class).bindFromRequest();
 
         if (orderForm.hasErrors()) {
             return badRequest(orderForm.getGlobalError().toString());
         } else {
-
+            OrderService.placeOrderAsRegisteredUser(orderForm.get(), getSessionUser());
             return ok("order placed");
         }
     }
+
 
     public Result getOrder(Long id){
         Order order = OrderService.findOrder(id);
@@ -59,27 +90,12 @@ public class OrderController {
     }
 
     @Constraints.Validate
-    public static class OrderInput implements Constraints.Validatable<String> {
+    public static class OrderInputGuest extends OrderInput {
+        public String email;
         public String firtsName;
         public String lastName;
-        public String company;
-
-        public String country;
-        public String city;
-        public String zipcode;
-
-        public String street;
-        public String streetNumber;
-        public String addressExtra;
-
-        public String email;
-        public String phone;
 
         public String password;
-        public String orderNotes;
-
-        public List<CartProduct> products;
-
 
         public String getFirtsName() {
             return firtsName;
@@ -96,6 +112,46 @@ public class OrderController {
         public void setLastName(String lastName) {
             this.lastName = lastName;
         }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
+
+        public String getPassword() {
+            return password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password;
+        }
+
+    }
+
+    @Constraints.Validate
+    public static class OrderInput implements Constraints.Validatable<String> {
+
+        public String company;
+
+        public String country;
+        public String city;
+        public String zipcode;
+
+        public String street;
+        public String streetNumber;
+        public String addressExtra;
+
+
+        public String orderNotes;
+
+        public List<CartProduct> products;
+
+
+
 
         public String getCompany() {
             return company;
@@ -153,38 +209,14 @@ public class OrderController {
             addressExtra = addressExtra;
         }
 
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
-        }
-
-        public String getPhone() {
-            return phone;
-        }
-
-        public void setPhone(String phone) {
-            this.phone = phone;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
-
         public String validate() {
 
             if (street == null) {
-                return "addressStreet cannot be empty";
+                return "street cannot be empty";
             }
 
             if (streetNumber == null) {
-                return "addressNumber cannot be empty";
+                return "streetNumber cannot be empty";
             }
 
             if (zipcode == null) {

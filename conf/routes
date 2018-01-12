@@ -35,6 +35,13 @@ GET /search/:criteria                       controllers.ProductController.search
 GET /product/:id                            controllers.ProductController.getProduct(id: Long)
 
 
++ nocsrf
+POST    /place-order-asguest                controllers.OrderController.placeOrderAsGuest()
+
+
++ nocsrf
+POST    /place-order-registered                controllers.OrderController.placeOrderAsRegisteredUser()
+
 #
 # Frontend routes for logged in users
 #######################################################################################################################

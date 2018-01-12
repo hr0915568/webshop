@@ -4,6 +4,7 @@ import controllers.OrderController;
 import io.ebean.Finder;
 import models.*;
 
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -65,7 +66,7 @@ public class OrderService {
      * @param input
      * @return
      */
-    public static Order placeOrderAsGuest(OrderController.OrderInput input) {
+    public static Order placeOrderAsGuest(OrderController.OrderInputGuest input) {
         User user = UserService.newUser(input.getEmail(), input.getFirtsName(), input.getLastName(), input.getPassword());
         Order order = generateOrder(
                 input.getProducts(),
@@ -79,6 +80,21 @@ public class OrderService {
 
         return order;
     }
+
+    public static Order placeOrderAsRegisteredUser(OrderController.OrderInput input, User user) {
+        Order order = generateOrder(
+                input.getProducts(),
+                new Address(input.getCountry(), input.getZipcode(), input.getStreet(), input.getStreetNumber(), input.getAddressExtra()),
+                user,
+                input.getOrderNotes(),
+                input.getCompany()
+        );
+
+        InvoiceService.generateInvoice(order);
+
+        return order;
+    }
+
 
     private static Order generateOrder(List<CartProduct> products, Address address, User user, String notes, String company) {
         Order order = new Order();

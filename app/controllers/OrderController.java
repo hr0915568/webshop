@@ -4,41 +4,30 @@ import models.*;
 import play.data.Form;
 import play.data.FormFactory;
 import play.data.validation.Constraints;
+import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import services.OrderService;
 import services.ProductService;
+import services.StatService;
 import services.UserService;
 
 import javax.inject.Inject;
 
+import java.util.Iterator;
 import java.util.List;
 
 import static play.mvc.Results.badRequest;
 import static play.mvc.Results.ok;
 
-public class OrderController extends Controller{
+public class OrderController extends FEBasecontroller{
 
     @Inject
     FormFactory formFactory;
 
-    private boolean isLoggedIn()
-    {
-        String email = session("email");
-        if(email == null || email.length() <= 1) {
-            return false;
-        }
 
-        return true;
-    }
-
-    private User getSessionUser()
-    {
-        String email = session("email");
-        return UserService.findByEmail(email);
-    }
-
+    @Transactional
     public Result placeOrderAsGuest() {
 
         Form<OrderInputGuest> orderForm = formFactory.form(OrderInputGuest.class).bindFromRequest();
@@ -47,10 +36,12 @@ public class OrderController extends Controller{
             return badRequest(orderForm.getGlobalError().toString());
         } else {
             OrderService.placeOrderAsGuest(orderForm.get());
+            logOrderProducts(orderForm.get().products);
             return ok("order placed");
         }
     }
 
+    @Transactional
     public Result placeOrderAsRegisteredUser() {
 
         Form<OrderInput> orderForm = formFactory.form(OrderInput.class).bindFromRequest();
@@ -59,10 +50,24 @@ public class OrderController extends Controller{
             return badRequest(orderForm.getGlobalError().toString());
         } else {
             OrderService.placeOrderAsRegisteredUser(orderForm.get(), getSessionUser());
+            logOrderProducts(orderForm.get().products);
             return ok("order placed");
         }
     }
 
+
+    private void logOrderProducts(List<CartProduct> cartProducts) {
+        Iterator<CartProduct> i = cartProducts.iterator();
+        while(i.hasNext()) {
+            Product p = ProductService.findByID(i.next().productId);
+            if(isLoggedIn()) {
+                StatService.newProductEvent(p, ProductStatAction.ORDER, getSessionUser());
+            }else{
+                StatService.newProductEvent(p, ProductStatAction.ORDER);
+            }
+
+        }
+    }
 
     public Result getOrder(Long id){
         Order order = OrderService.findOrder(id);

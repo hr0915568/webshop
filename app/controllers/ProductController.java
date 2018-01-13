@@ -3,7 +3,9 @@ package controllers;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Category;
 import models.Product;
+import models.ProductStatAction;
 import play.data.validation.Constraints;
+import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -13,33 +15,35 @@ import services.ProductService;
 import play.data.Form;
 import play.data.FormFactory;
 import io.ebean.*;
+import services.StatService;
 
 
 import javax.inject.Inject;
 import java.util.List;
 
-public class ProductController extends Controller {
+public class ProductController extends FEBasecontroller {
 
     @Inject
     FormFactory formFactory;
 
-    public Result editProduct(Long id)
-    {
-
-        Form<ProductInput> productForm = formFactory.form(ProductInput.class).bindFromRequest();
-
-        if (productForm.hasErrors()) {
-            return badRequest(productForm.getGlobalError().toString());
-        } else {
-          //update profile
-            Product product = ProductService.findByID(id);
-            product.setProductname(productForm.get().getProductname());
-            product.setDescription(productForm.get().getDescription());
-            product.setPrice(productForm.get().getPrice());
-            product.update();
-            return ok("success");
-        }
-    }
+//    @Transactional
+//    public Result editProduct(Long id)
+//    {
+//
+//        Form<ProductInput> productForm = formFactory.form(ProductInput.class).bindFromRequest();
+//
+//        if (productForm.hasErrors()) {
+//            return badRequest(productForm.getGlobalError().toString());
+//        } else {
+//          //update profile
+//            Product product = ProductService.findByID(id);
+//            product.setProductname(productForm.get().getProductname());
+//            product.setDescription(productForm.get().getDescription());
+//            product.setPrice(productForm.get().getPrice());
+//            product.update();
+//            return ok("success");
+//        }
+//    }
 
     public Result search(String criteria)
     {
@@ -67,6 +71,12 @@ public class ProductController extends Controller {
 
     public Result getProduct(Long id) {
         Product product = ProductService.findByID(id);
+        if(isLoggedIn()) {
+            StatService.newProductEvent(product, ProductStatAction.VIEW, getSessionUser());
+        }else{
+            StatService.newProductEvent(product, ProductStatAction.VIEW);
+        }
+
         return ok(Json.toJson(product));
     }
 

@@ -2,22 +2,22 @@ package models;
 
 public class CartProduct {
 
-    public Integer productId;
+    public Long productId;
     public Integer quantity;
 
     public CartProduct() {
     }
 
-    public CartProduct(Integer productId, Integer quantity) {
+    public CartProduct(Long productId, Integer quantity) {
         this.productId = productId;
         this.quantity = quantity;
     }
 
-    public Integer getProductId() {
+    public Long getProductId() {
         return productId;
     }
 
-    public void setProductId(Integer productId) {
+    public void setProductId(Long productId) {
         this.productId = productId;
     }
 

@@ -17,7 +17,6 @@ import java.util.concurrent.ThreadLocalRandom;
 public class ForgottenPasswordCode extends Model {
 
     @Id
-    @Constraints.Min(10)
     public Long id;
 
 

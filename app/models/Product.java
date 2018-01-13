@@ -12,7 +12,6 @@ import play.data.validation.*;
 public class Product extends Model {
 
     @Id
-    @Constraints.Min(10)
     public Long id;
 
     @Constraints.Required

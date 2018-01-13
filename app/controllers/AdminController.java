@@ -1,5 +1,6 @@
 package controllers;
 
+
 import models.Category;
 import models.Order;
 import models.Product;
@@ -8,6 +9,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import play.data.Form;
 import play.data.FormFactory;
 import play.data.validation.Constraints;
+import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -64,6 +66,7 @@ public class AdminController extends Controller{
         return ok(Json.toJson(user));
     }
 
+    @Transactional
     public Result editCustomer(Long id) {
         if(isAdmin() == false) {
             return badRequest("Permission denied");
@@ -88,6 +91,7 @@ public class AdminController extends Controller{
         }
     }
 
+    @Transactional
     public Result addProduct() {
         if(isAdmin() == false) {
             return badRequest("Permission denied");
@@ -108,6 +112,7 @@ public class AdminController extends Controller{
     }
 
 
+    @Transactional
     public Result editProduct(Long id) {
         if(isAdmin() == false) {
             return badRequest("Permission denied");
@@ -132,6 +137,7 @@ public class AdminController extends Controller{
         }
     }
 
+    @Transactional
     public Result deleteProduct(Long id) {
         if (isAdmin() == false) {
             return badRequest("Permission denied");
@@ -141,6 +147,7 @@ public class AdminController extends Controller{
         }
     }
 
+    @Transactional
     public Result editOrder(Long id){
         if (isAdmin() == false) {
             return badRequest("Permission denied");

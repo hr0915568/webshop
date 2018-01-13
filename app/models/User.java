@@ -13,7 +13,6 @@ import services.UserService;
 public class User extends Model {
 
     @Id
-    @Constraints.Min(10)
     public Long id;
 
     @JsonIgnore

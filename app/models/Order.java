@@ -13,7 +13,6 @@ import java.util.List;
 public class Order extends Model{
 
     @Id
-    @Constraints.Min(10)
     public Long id;
 
     @Constraints.Required

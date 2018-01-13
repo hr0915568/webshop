@@ -9,7 +9,6 @@ import javax.persistence.*;
 public class OrderProduct extends Model {
 
     @Id
-    @Constraints.Min(10)
     public Long id;
 
     @ManyToOne(optional=false)

@@ -76,6 +76,16 @@ create table product (
   constraint pk_product primary key (id)
 );
 
+create table product_stat (
+  id                            bigint auto_increment not null,
+  product_id                    bigint,
+  order_time                    datetime(6),
+  type                          integer,
+  visitor_id                    bigint,
+  constraint ck_product_stat_type check ( type in (0,1)),
+  constraint pk_product_stat primary key (id)
+);
+
 create table user (
   id                            bigint auto_increment not null,
   firstname                     varchar(255),
@@ -108,6 +118,12 @@ create index ix_order_product_orderedproduct_id on order_product (orderedproduct
 alter table product add constraint fk_product_categories_id foreign key (categories_id) references category (id) on delete restrict on update restrict;
 create index ix_product_categories_id on product (categories_id);
 
+alter table product_stat add constraint fk_product_stat_product_id foreign key (product_id) references product (id) on delete restrict on update restrict;
+create index ix_product_stat_product_id on product_stat (product_id);
+
+alter table product_stat add constraint fk_product_stat_visitor_id foreign key (visitor_id) references user (id) on delete restrict on update restrict;
+create index ix_product_stat_visitor_id on product_stat (visitor_id);
+
 
 # --- !Downs
 
@@ -131,6 +147,12 @@ drop index ix_order_product_orderedproduct_id on order_product;
 alter table product drop foreign key fk_product_categories_id;
 drop index ix_product_categories_id on product;
 
+alter table product_stat drop foreign key fk_product_stat_product_id;
+drop index ix_product_stat_product_id on product_stat;
+
+alter table product_stat drop foreign key fk_product_stat_visitor_id;
+drop index ix_product_stat_visitor_id on product_stat;
+
 drop table if exists category;
 
 drop table if exists forgotten_password_code;
@@ -144,6 +166,8 @@ drop table if exists `order`;
 drop table if exists order_product;
 
 drop table if exists product;
+
+drop table if exists product_stat;
 
 drop table if exists user;
 

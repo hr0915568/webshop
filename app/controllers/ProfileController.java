@@ -6,6 +6,7 @@ import models.User;
 import play.data.Form;
 import play.data.FormFactory;
 import play.data.validation.Constraints;
+import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -14,27 +15,14 @@ import services.UserService;
 
 import javax.inject.Inject;
 
-public class ProfileController extends Controller {
+public class ProfileController extends FEBasecontroller {
 
     @Inject
     FormFactory formFactory;
 
-    private boolean isLoggedIn()
-    {
-        String email = session("email");
-        if(email == null || email.length() <= 1) {
-            return false;
-        }
 
-        return true;
-    }
 
-    private User getSessionUser()
-    {
-        String email = session("email");
-        return UserService.findByEmail(email);
-    }
-
+    @Transactional
     public Result save()
     {
         if(isLoggedIn() == false) {

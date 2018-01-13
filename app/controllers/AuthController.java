@@ -9,6 +9,7 @@ import play.api.i18n.Messages;
 import play.api.i18n.MessagesApi;
 import play.data.validation.Constraints;
 import play.data.validation.ValidationError;
+import play.db.ebean.Transactional;
 import play.mvc.*;
 import play.data.*;
 import play.Logger;
@@ -56,7 +57,7 @@ public class AuthController extends Controller {
     private final FormFactory formFactory;
 
 
-
+    @Transactional
     public Result resetPassword() {
         Form<NewPassword> newPasswordForm = formFactory.form(NewPassword.class).bindFromRequest();
 
@@ -76,7 +77,7 @@ public class AuthController extends Controller {
         }
     }
 
-
+    @Transactional
     public Result forgottenPassword() {
 
         Form<ForgottenPasswordForm> forgottenPasswordFormForm = formFactory.form(ForgottenPasswordForm.class).bindFromRequest();
@@ -103,6 +104,7 @@ public class AuthController extends Controller {
         this.formFactory = formFactory;
     }
 
+    @Transactional
     public Result login() {
         Form<Login> loginForm = formFactory.form(Login.class).bindFromRequest();
 
@@ -116,6 +118,7 @@ public class AuthController extends Controller {
         }
     }
 
+    @Transactional
     public Result register() {
         Form<User> registerationForm = formFactory.form(User.class).bindFromRequest();
 

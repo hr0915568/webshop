@@ -11,7 +11,6 @@ import java.util.Set;
 public class Category {
 
     @Id
-    @Constraints.Min(10)
     public Long id;
 
     @Constraints.Required

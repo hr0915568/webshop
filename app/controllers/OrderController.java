@@ -99,17 +99,17 @@ public class OrderController extends FEBasecontroller{
     @Constraints.Validate
     public static class OrderInputGuest extends OrderInput {
         public String email;
-        public String firtsName;
+        public String firstName;
         public String lastName;
 
         public String password;
 
-        public String getFirtsName() {
-            return firtsName;
+        public String getFirstName() {
+            return firstName;
         }
 
-        public void setFirtsName(String firtsName) {
-            this.firtsName = firtsName;
+        public void setFirtsName(String firstName) {
+            this.firstName = firstName;
         }
 
         public String getLastName() {

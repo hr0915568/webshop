@@ -1,10 +1,8 @@
 package controllers;
 
 
-import models.Category;
-import models.Order;
-import models.Product;
-import models.User;
+import helpers.RandomDateTime;
+import models.*;
 import org.hibernate.validator.constraints.NotEmpty;
 import play.data.Form;
 import play.data.FormFactory;
@@ -13,13 +11,15 @@ import play.db.ebean.Transactional;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
-import services.CategoryService;
-import services.OrderService;
-import services.ProductService;
-import services.UserService;
+import services.*;
 
+import javax.annotation.Resource;
 import javax.inject.Inject;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 public class AdminController extends Controller{
 
@@ -33,6 +33,131 @@ public class AdminController extends Controller{
     private boolean isAdmin() {
         return "1".equals(session("admin"));
     }
+
+
+    public Result getCategoriesViewsData() {
+        List<CategoryView> views = StatService.getViewsByDayOfWeek();
+
+        return ok(Json.toJson(views));
+    }
+
+    public Result getProductsViewsData() {
+        List<ProductsView> views = StatService.getViewsByDay();
+
+        return ok(Json.toJson(views));
+    }
+
+    public Result generateData() throws ParseException {
+        generateProductViews();
+        generateOrders();
+        return ok(RandomDateTime.random().toString());
+    }
+
+    /**
+     * generate 100 orders
+     */
+    private void generateOrders() throws ParseException {
+        Random rand = new Random();
+        int i = 1;
+        while(i <= 100) {
+            int userid = rand.nextInt(10) + 1;
+            if(userid > 5) {
+                //visitor
+                //generateVisitorProductView();
+            }else{
+                generateLoggedInOrder(userid);
+            }
+            i++;
+        }
+    }
+
+
+    private void generateVisitorOrder() {
+
+    }
+
+    private void generateLoggedInOrder(int userID) {
+        User user = UserService.findUserByID(Integer.toUnsignedLong(userID));
+        OrderController.OrderInput o = new OrderController.OrderInput();
+        o.setCity("rotterdam");
+        o.setCountry("Nederland");
+        o.setStreet("Heysekade");
+        o.setStreetNumber("3");
+
+
+
+
+        o.setProducts(generateListCartProduct());
+        OrderService.placeOrderAsRegisteredUser(o, user);
+    }
+
+
+    private List<CartProduct> generateListCartProduct()
+    {
+        List<CartProduct> cartProducts = new ArrayList<>();
+        Random random = new Random();
+        int numberofProducts = random.nextInt(10) + 1;
+        while (numberofProducts > 0) {
+            int productId = random.nextInt(114) + 1;
+            Product p = ProductService.findByID(Integer.toUnsignedLong(productId));
+            boolean added = false;
+            Iterator<CartProduct> iterator = cartProducts.iterator();
+            while(iterator.hasNext()) {
+                CartProduct c = iterator.next();
+                if(c.productId == p.getId()) {
+                    c.quantity++;
+                    added = true;
+                    break;
+                }
+            }
+
+            if(added == false) {
+                CartProduct newCP = new CartProduct();
+                newCP.productId = p.getId();
+                newCP.quantity = 1;
+                cartProducts.add(newCP);
+            }
+
+            numberofProducts--;
+        }
+
+        return cartProducts;
+    }
+
+    /**
+     * generate 1000 views
+     */
+    private void generateProductViews() throws ParseException {
+        Random rand = new Random();
+        int i = 1;
+        while(i <= 1000) {
+            int userid = rand.nextInt(10) + 1;
+            if(userid > 5) {
+                //visitor
+                generateVisitorProductView();
+            }else{
+                generateLoggedInProductView(userid);
+            }
+            i++;
+        }
+    }
+
+
+    private void generateVisitorProductView() throws ParseException {
+        Random rand = new Random();
+        int productId = rand.nextInt(114) + 1;
+        Product p = ProductService.findByID(Integer.toUnsignedLong(productId));
+        StatService.newProductEvent(p, ProductStatAction.VIEW, RandomDateTime.random());
+    }
+
+    private void generateLoggedInProductView(int userID) throws ParseException {
+        User user = UserService.findUserByID(Integer.toUnsignedLong(userID));
+        Random rand = new Random();
+        int productId = rand.nextInt(114) + 1;
+        Product p = ProductService.findByID(Integer.toUnsignedLong(productId));
+        StatService.newProductEvent(p, ProductStatAction.VIEW, user, RandomDateTime.random());
+    }
+
 
     public Result login() {
         response().setHeader("Access-Control-Allow-Origin", "*");

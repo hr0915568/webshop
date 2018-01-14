@@ -82,5 +82,11 @@ POST    /admin/customers/:id                controllers.AdminController.editCust
 
 GET     /admin/categories                   controllers.AdminController.categories()
 
+GET  /admin/generate                        controllers.AdminController.generateData()
+
+
+GET  /admin/data/productviews                        controllers.AdminController.getProductsViewsData()
+GET  /admin/data/categoryviews                        controllers.AdminController.getCategoriesViewsData()
+
 
 

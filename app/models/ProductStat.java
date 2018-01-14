@@ -21,7 +21,7 @@ public class ProductStat extends Model {
 
     @Constraints.Required
     @Formats.DateTime(pattern="dd/MM/yyyy")
-    public Date orderTime = new Date();
+    public Date createAt = new Date();
 
     @Constraints.Required
     public ProductStatAction type;
@@ -45,12 +45,12 @@ public class ProductStat extends Model {
         this.product = product;
     }
 
-    public Date getOrderTime() {
-        return orderTime;
+    public Date getCreateAt() {
+        return createAt;
     }
 
-    public void setOrderTime(Date orderTime) {
-        this.orderTime = orderTime;
+    public void setCreateAt(Date createAt) {
+        this.createAt = createAt;
     }
 
     public ProductStatAction getType() {

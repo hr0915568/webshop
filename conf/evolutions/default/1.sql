@@ -79,7 +79,7 @@ create table product (
 create table product_stat (
   id                            bigint auto_increment not null,
   product_id                    bigint,
-  order_time                    datetime(6),
+  create_at                     datetime(6),
   type                          integer,
   visitor_id                    bigint,
   constraint ck_product_stat_type check ( type in (0,1)),

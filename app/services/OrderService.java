@@ -67,13 +67,14 @@ public class OrderService {
      * @return
      */
     public static Order placeOrderAsGuest(OrderController.OrderInputGuest input) {
-        User user = UserService.newUser(input.getEmail(), input.getFirtsName(), input.getLastName(), input.getPassword());
+        User user = UserService.newUser(input.getEmail(), input.getFirstName(), input.getLastName(), input.getPassword());
         Order order = generateOrder(
                 input.getProducts(),
                 new Address(input.getCountry(), input.getZipcode(), input.getStreet(), input.getStreetNumber(), input.getAddressExtra()),
                 user,
                 input.getOrderNotes(),
-                input.getCompany()
+                input.getCompany(),
+                input.getCity()
         );
 
         InvoiceService.generateInvoice(order);
@@ -87,7 +88,8 @@ public class OrderService {
                 new Address(input.getCountry(), input.getZipcode(), input.getStreet(), input.getStreetNumber(), input.getAddressExtra()),
                 user,
                 input.getOrderNotes(),
-                input.getCompany()
+                input.getCompany(),
+                input.getCity()
         );
 
         InvoiceService.generateInvoice(order);
@@ -96,11 +98,13 @@ public class OrderService {
     }
 
 
-    private static Order generateOrder(List<CartProduct> products, Address address, User user, String notes, String company) {
+    private static Order generateOrder(List<CartProduct> products, Address address, User user, String notes, String company,String city) {
         Order order = new Order();
         order.setUser(user);
         order.setAddress(address);
         order.setCompany(company);
+        order.setCity(city);
+        order.setNotes(notes);
         order.save();
 
         Iterator<CartProduct> iterator = products.iterator();

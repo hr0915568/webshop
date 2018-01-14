@@ -46,11 +46,13 @@ public class OrderController extends FEBasecontroller{
 
         Form<OrderInput> orderForm = formFactory.form(OrderInput.class).bindFromRequest();
 
+        
         if (orderForm.hasErrors()) {
             return badRequest(orderForm.getGlobalError().toString());
         } else {
             OrderService.placeOrderAsRegisteredUser(orderForm.get(), getSessionUser());
             logOrderProducts(orderForm.get().products);
+
             return ok("order placed");
         }
     }
@@ -97,17 +99,17 @@ public class OrderController extends FEBasecontroller{
     @Constraints.Validate
     public static class OrderInputGuest extends OrderInput {
         public String email;
-        public String firtsName;
+        public String firstName;
         public String lastName;
 
         public String password;
 
-        public String getFirtsName() {
-            return firtsName;
+        public String getFirstName() {
+            return firstName;
         }
 
-        public void setFirtsName(String firtsName) {
-            this.firtsName = firtsName;
+        public void setFirtsName(String firstName) {
+            this.firstName = firstName;
         }
 
         public String getLastName() {
@@ -211,7 +213,7 @@ public class OrderController extends FEBasecontroller{
         }
 
         public void setAddressExtra(String addressExtra) {
-            addressExtra = addressExtra;
+            this.addressExtra = addressExtra;
         }
 
         public String validate() {

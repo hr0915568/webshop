@@ -1,15 +1,24 @@
 package services;
 
-import models.Invoice;
-import models.InvoiceRow;
-import models.Order;
-import models.OrderProduct;
+import io.ebean.Finder;
+import models.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public class InvoiceService {
+
+    public static final Finder<Long, Invoice> find = new Finder<>(Invoice.class);
+
+    public static List<Invoice> getAllInvoicesOfUser(User user) {
+        List<Invoice> invoices = InvoiceService.find.query().fetchLazy("ordermodel").where().eq("user_id", user.getId())
+                .setMaxRows(500)
+                .findPagedList()
+                .getList();
+
+        return invoices;
+    }
 
     public static Invoice generateInvoice(Order order) {
         Invoice invoice = new Invoice();

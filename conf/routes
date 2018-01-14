@@ -42,6 +42,8 @@ POST    /place-order-asguest                controllers.OrderController.placeOrd
 + nocsrf
 POST    /place-order-registered                controllers.OrderController.placeOrderAsRegisteredUser()
 
+
+
 #
 # Frontend routes for logged in users
 #######################################################################################################################
@@ -50,6 +52,7 @@ GET /profile                                controllers.ProfileController.get()
 + nocsrf
 POST /profile                                controllers.ProfileController.save()
 
+GET /invoices                             controllers.InvoiceController.getInvoices()
 
 
 

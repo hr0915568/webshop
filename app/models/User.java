@@ -78,4 +78,12 @@ public class User extends Model {
     public void setLastname(String lastname) {
         this.lastname = lastname;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

@@ -1,6 +1,8 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.ebean.Model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import play.data.validation.Constraints;
 
 import javax.persistence.*;
@@ -16,13 +18,16 @@ public class Invoice extends Model{
 
     @Constraints.Required
     @OneToOne
+    @JsonIgnore
     public Order ordermodel;
 
     @Constraints.Required
     @ManyToOne
+    @JsonIgnore
     public User user;
 
     @Constraints.Required
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     public Date invoiceDate = new Date();
 
     @Constraints.Required
@@ -45,6 +50,7 @@ public class Invoice extends Model{
     public Float shippingCosts = 0F;
 
     @OneToMany(mappedBy = "invoice")
+    @JsonIgnore
     public List<InvoiceRow> invoiceRows;
 
     public Long getId() {

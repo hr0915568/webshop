@@ -1,6 +1,7 @@
 package models;
 
 import io.ebean.Model;
+import io.ebean.annotation.JsonIgnore;
 import play.data.format.Formats;
 import play.data.validation.Constraints;
 
@@ -45,6 +46,7 @@ public class Order extends Model{
 
 
     @OneToMany(mappedBy = "order")
+    @JsonIgnore
     public List<OrderProduct> orderProducts;
 
     public Long getId() {

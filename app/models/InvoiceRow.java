@@ -1,6 +1,7 @@
 package models;
 
 import io.ebean.Model;
+import io.ebean.annotation.JsonIgnore;
 import play.data.validation.Constraints;
 
 import javax.persistence.Entity;
@@ -17,6 +18,7 @@ public class InvoiceRow extends Model{
     public String description;
 
     @ManyToOne
+    @JsonIgnore
     public Invoice invoice;
 
     @Constraints.Required

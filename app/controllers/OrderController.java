@@ -46,11 +46,13 @@ public class OrderController extends FEBasecontroller{
 
         Form<OrderInput> orderForm = formFactory.form(OrderInput.class).bindFromRequest();
 
+        
         if (orderForm.hasErrors()) {
             return badRequest(orderForm.getGlobalError().toString());
         } else {
             OrderService.placeOrderAsRegisteredUser(orderForm.get(), getSessionUser());
             logOrderProducts(orderForm.get().products);
+
             return ok("order placed");
         }
     }
@@ -211,7 +213,7 @@ public class OrderController extends FEBasecontroller{
         }
 
         public void setAddressExtra(String addressExtra) {
-            addressExtra = addressExtra;
+            this.addressExtra = addressExtra;
         }
 
         public String validate() {

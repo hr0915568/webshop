@@ -36,9 +36,9 @@ pipeline {
                 sh 'ssh -t docker@192.168.1.7 \'unzip webshop.zip\''
                 sh 'ssh docker@192.168.1.7 \'nohup ./webshop-1.0-SNAPSHOT/bin/webshop -Dplay.http.secret.key=hrwebshop -Dplay.evolutions.db.default.autoApply=true > /dev/null 2> /dev/null  < /dev/null &\''
                 echo 'Trigger the service'
-                sh 'sleep 10 &&  ssh -t docker@192.168.1.7 \'wget http://localhost:9000\''
+                sh 'sleep 20 &&  ssh -t docker@192.168.1.7 \'wget http://localhost:9000\''
                 echo 'load database data'
-                sh 'mysql -u root -h 192.168.1.7 -pPassword00 webshop < conf/testdata'
+                sh 'sleep 30 && mysql -u root -h 192.168.1.7 -pPassword00 webshop < conf/testdata'
             }
         }
     }

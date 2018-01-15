@@ -22,6 +22,8 @@ POST    /forgotten-password                      controllers.AuthController.forg
 
 GET /download                               controllers.InvoiceController.download()
 
+POST /contact                       controllers.HomeController.contact()
+
 GET /download/:id                               controllers.InvoiceController.download(id: Long)
 
 #

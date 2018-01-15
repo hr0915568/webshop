@@ -122,6 +122,7 @@ public class OrderService {
             orderProduct.setPriceAtOrdertime(product.getPrice());
 
             orderProduct.save();
+            orderProducts.add(orderProduct);
         }
 
         order.setOrderProducts(orderProducts);

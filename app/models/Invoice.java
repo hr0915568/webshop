@@ -50,7 +50,6 @@ public class Invoice extends Model{
     public Float shippingCosts = 0F;
 
     @OneToMany(mappedBy = "invoice")
-    @JsonIgnore
     public List<InvoiceRow> invoiceRows;
 
     public Long getId() {

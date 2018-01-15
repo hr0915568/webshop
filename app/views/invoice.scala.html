@@ -159,35 +159,17 @@
             </td>
         </tr>
 
-        <tr class="item">
-            <td>
-                Website design
-            </td>
+        @for(invoiceRow <- invoice.invoiceRows) {
+            <tr class="item">
+                <td>
+                @invoiceRow.getDescription()
+                </td>
 
-            <td>
-                $300.00
-            </td>
-        </tr>
-
-        <tr class="item">
-            <td>
-                Hosting (3 months)
-            </td>
-
-            <td>
-                $75.00
-            </td>
-        </tr>
-
-        <tr class="item last">
-            <td>
-                Domain name (1 year)
-            </td>
-
-            <td>
-                $10.00
-            </td>
-        </tr>
+                <td>
+                @invoiceRow.unitPrice
+                </td>
+            </tr>
+        }
 
         <tr class="total">
             <td></td>

@@ -123,26 +123,3 @@ INSERT INTO webshop.product (productname, description,filename, price, viewed, c
 INSERT INTO webshop.product (productname, description,filename, price, viewed, categories_id) values ('Bosch','ICON WIPER BLADE','wiper3.jpg',45,0,5);
 INSERT INTO webshop.product (productname, description,filename, price, viewed, categories_id) values ('Bosch','INSIGHT WIPER BLADE','wiper4.jpg',48.99,0,5);
 INSERT INTO webshop.product (productname, description,filename, price, viewed, categories_id) values ('PIAA','AERO VOGUE SILICONE WIPER BLADE','wiper5.jpg',23.5,0,5);0);
-INSERT INTO webshop.`order` (street, street_number, address_extra, zipcode, country, city, company, notes) VALUES ('Dorpsstraat', '14', a, '2821BV', 'Nederland', 'Zoetermeer', 'Company1', 'There are no Notes for this Order');
-INSERT INTO webshop.`order` (street, street_number, address_extra, zipcode, country, city, company, notes) VALUES ('Wijnhaven', '107', 'Gebouw1', '3011WN', 'Nederland', 'Zoetermeer', 'Hogeschool Rotterdam', 'NOTE FOR MY ORDER PLEASE HELP');
-INSERT INTO webshop.order_product (order_id, orderedproduct_id, price_at_ordertime, quantity) VALUES (1, 108, 190, 1);
-INSERT INTO webshop.order_product (order_id, orderedproduct_id, price_at_ordertime, quantity) VALUES (1, 111, 35.9, 1);
-INSERT INTO webshop.order_product (order_id, orderedproduct_id, price_at_ordertime, quantity) VALUES (1, 115, 23.5, 1);
-INSERT INTO webshop.order_product (order_id, orderedproduct_id, price_at_ordertime, quantity) VALUES (1, 112, 20.1, 1);
-INSERT INTO webshop.order_product (order_id, orderedproduct_id, price_at_ordertime, quantity) VALUES (1, 80, 110.2, 1);
-INSERT INTO webshop.order_product (order_id, orderedproduct_id, price_at_ordertime, quantity) VALUES (1, 81, 90.5, 1);
-INSERT INTO webshop.order_product (order_id, orderedproduct_id, price_at_ordertime, quantity) VALUES (1, 82, 95, 1);
-INSERT INTO webshop.order_product (order_id, orderedproduct_id, price_at_ordertime, quantity) VALUES (1, 83, 59.3, 1);
-INSERT INTO webshop.order_product (order_id, orderedproduct_id, price_at_ordertime, quantity) VALUES (1, 84, 150.1, 1);
-INSERT INTO webshop.order_product (order_id, orderedproduct_id, price_at_ordertime, quantity) VALUES (1, 85, 200.5, 1);
-INSERT INTO webshop.order_product (order_id, orderedproduct_id, price_at_ordertime, quantity) VALUES (1, 86, 205, 1);
-INSERT INTO webshop.order_product (order_id, orderedproduct_id, price_at_ordertime, quantity) VALUES (1, 87, 85, 1);
-INSERT INTO webshop.order_product (order_id, orderedproduct_id, price_at_ordertime, quantity) VALUES (1, 91, 130.15, 1);
-INSERT INTO webshop.order_product (order_id, orderedproduct_id, price_at_ordertime, quantity) VALUES (1, 90, 91.25, 1);
-INSERT INTO webshop.order_product (order_id, orderedproduct_id, price_at_ordertime, quantity) VALUES (1, 89, 90.99, 1);
-INSERT INTO webshop.order_product (order_id, orderedproduct_id, price_at_ordertime, quantity) VALUES (2, 95, 12.9, 1);
-INSERT INTO webshop.order_product (order_id, orderedproduct_id, price_at_ordertime, quantity) VALUES (2, 96, 15.5, 1);
-INSERT INTO webshop.order_product (order_id, orderedproduct_id, price_at_ordertime, quantity) VALUES (2, 97, 45.9, 1);
-INSERT INTO webshop.order_product (order_id, orderedproduct_id, price_at_ordertime, quantity) VALUES (2, 98, 35, 1);
-INSERT INTO webshop.invoice (ordermodel_id, user_id, invoice_date, country, zipcode, street, street_number, address_extra, shipping_costs) VALUES (1, 1, '2018-01-13 22:43:00.440000', 'Nederland', '2821BV', 'Dorpsstraat', '14', 'a', 0);
-INSERT INTO webshop.invoice (ordermodel_id, user_id, invoice_date, country, zipcode, street, street_number, address_extra, shipping_costs) VALUES (2, 1, '2018-01-13 23:18:55.114000', 'Nederland', '2722AV', '14, Geuzenpad', '14', null,

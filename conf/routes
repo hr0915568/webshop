@@ -20,8 +20,6 @@ POST    /register                      controllers.AuthController.register()
 
 POST    /forgotten-password                      controllers.AuthController.forgottenPassword()
 
-GET /download                               controllers.InvoiceController.download()
-
 POST /contact                       controllers.HomeController.contact()
 
 GET /download/:id                               controllers.InvoiceController.download(id: Long)

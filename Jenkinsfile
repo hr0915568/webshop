@@ -38,7 +38,7 @@ pipeline {
                 echo 'Trigger the service'
                 sh 'sleep 60 &&  ssh -t docker@192.168.1.7 \'wget http://localhost:9000\''
                 echo 'load database data'
-                sh 'sleep 60 && mysql -u root -h 192.168.1.7 -pPassword00 webshop < conf/testdata'
+                sh 'sleep 60 && mysql -u root -h 192.168.1.7 -pPassword00 webshop -f < conf/testdata'
             }
         }
     }

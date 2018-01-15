@@ -98,6 +98,13 @@ create table user (
   constraint pk_user primary key (id)
 );
 
+create table wish_product (
+  id                            bigint auto_increment not null,
+  user_id                       bigint,
+  product_id                    bigint,
+  constraint pk_wish_product primary key (id)
+);
+
 alter table invoice add constraint fk_invoice_ordermodel_id foreign key (ordermodel_id) references `order` (id) on delete restrict on update restrict;
 
 alter table invoice add constraint fk_invoice_user_id foreign key (user_id) references user (id) on delete restrict on update restrict;
@@ -123,6 +130,12 @@ create index ix_product_stat_product_id on product_stat (product_id);
 
 alter table product_stat add constraint fk_product_stat_visitor_id foreign key (visitor_id) references user (id) on delete restrict on update restrict;
 create index ix_product_stat_visitor_id on product_stat (visitor_id);
+
+alter table wish_product add constraint fk_wish_product_user_id foreign key (user_id) references user (id) on delete restrict on update restrict;
+create index ix_wish_product_user_id on wish_product (user_id);
+
+alter table wish_product add constraint fk_wish_product_product_id foreign key (product_id) references product (id) on delete restrict on update restrict;
+create index ix_wish_product_product_id on wish_product (product_id);
 
 
 # --- !Downs
@@ -153,6 +166,12 @@ drop index ix_product_stat_product_id on product_stat;
 alter table product_stat drop foreign key fk_product_stat_visitor_id;
 drop index ix_product_stat_visitor_id on product_stat;
 
+alter table wish_product drop foreign key fk_wish_product_user_id;
+drop index ix_wish_product_user_id on wish_product;
+
+alter table wish_product drop foreign key fk_wish_product_product_id;
+drop index ix_wish_product_product_id on wish_product;
+
 drop table if exists category;
 
 drop table if exists forgotten_password_code;
@@ -170,4 +189,6 @@ drop table if exists product;
 drop table if exists product_stat;
 
 drop table if exists user;
+
+drop table if exists wish_product;
 

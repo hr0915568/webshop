@@ -2,6 +2,7 @@ package controllers;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.ForgottenPasswordCode;
+import models.Product;
 import models.User;
 import play.data.Form;
 import play.data.FormFactory;
@@ -11,15 +12,45 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
+import services.ProductService;
 import services.UserService;
+import services.WishService;
 
 import javax.inject.Inject;
+import java.util.List;
 
 public class ProfileController extends FEBasecontroller {
 
     @Inject
     FormFactory formFactory;
 
+    @Transactional
+    public Result addToWishList()
+    {
+        if(isLoggedIn() == false) {
+            return badRequest("Not logged in");
+        }
+        Form<newWishProduct> form = formFactory.form(newWishProduct.class).bindFromRequest();
+
+        if (form.hasErrors()) {
+            return badRequest(form.getGlobalError().toString());
+        } else {
+            Product product = ProductService.findByID(form.get().getId());
+            WishService.newWish(product, getSessionUser());
+        }
+        return ok();
+    }
+
+    public Result getWishList()
+    {
+        if(isLoggedIn() == false) {
+            return badRequest("Not logged in");
+        }
+
+        List<Product> products = WishService.getProducts(getSessionUser());
+
+        return ok(Json.toJson(products));
+    }
 
 
     @Transactional
@@ -64,6 +95,28 @@ public class ProfileController extends FEBasecontroller {
         result.put("lastname", user.getLastname());
         result.put("email", user.getEmail());
         return ok(result);
+    }
+
+    @Constraints.Validate
+    public static class newWishProduct implements Constraints.Validatable<String> {
+        public Long id;
+
+        @Override
+        public String validate() {
+            if(id == null) {
+                return "no input";
+            }
+
+            return null;
+        }
+
+        public Long getId() {
+            return id;
+        }
+
+        public void setId(Long id) {
+            this.id = id;
+        }
     }
 
     @Constraints.Validate

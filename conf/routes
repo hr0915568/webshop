@@ -54,6 +54,9 @@ POST /profile                                controllers.ProfileController.save(
 
 GET /invoices                             controllers.InvoiceController.getInvoices()
 
+POST /wishlist/new                            controllers.ProfileController.addToWishList()
+GET /wishlist                                   controllers.ProfileController.getWishList()
+
 
 
 #

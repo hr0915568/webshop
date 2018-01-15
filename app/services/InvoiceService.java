@@ -20,6 +20,19 @@ public class InvoiceService {
         return invoices;
     }
 
+    public static Invoice getInvoice(Long id) {
+        List<Invoice> invoices = InvoiceService.find.query().where().eq("id", id)
+                .setMaxRows(500)
+                .findPagedList()
+                .getList();
+
+        if (invoices.size() == 0) {
+            return null;
+        }
+
+        return invoices.get(0);
+    }
+
     public static Invoice generateInvoice(Order order) {
         Invoice invoice = new Invoice();
         invoice.setCountry(order.getCountry());

@@ -3,6 +3,9 @@ package controllers;
 import it.innove.play.pdf.PdfGenerator;
 import com.typesafe.config.Config;
 import models.Invoice;
+import models.Order;
+import models.OrderProduct;
+import models.Product;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -26,9 +29,18 @@ public class InvoiceController extends FEBasecontroller {
     @Inject
     public Config configuration;
 
-   public Result download() {
+   public Result download(Long id) {
 
-       return pdfGenerator.ok(invoice.render("Hello world"), "api.hrwebshop.tk");
+       Invoice invoicetoget = InvoiceService.getInvoice(id);
+
+//       List<OrderProduct> data = invoicetoget.getOrdermodel().getOrderProducts();
+//       for (OrderProduct item : data){
+//            item.getOrderedproduct().getProductname();
+//            item.getPriceAtOrdertime();
+//       }
+
+
+       return pdfGenerator.ok(invoice.render("Hello world", invoicetoget), "api.hrwebshop.tk");
    }
 
    public Result getInvoices()
